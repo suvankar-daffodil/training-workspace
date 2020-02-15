@@ -1,11 +1,10 @@
 const express = require("express");
 const multer = require("multer");
+const passport = require("passport");
 
-const userModel = require("./model");
+const userApi = require("./api");
 
 const router = express.Router();
-
-let users;
 
 const markup = `<!DOCTYPE html>
 <html>
@@ -59,37 +58,31 @@ const markup = `<!DOCTYPE html>
 
 const upload = multer({ dest: "./public/uploads/" });
 
-router.get("/users", (req, res) => {
-  userModel.find({}, (err, data) => {
-    users = data;
-    res.json(users);
-  });
+router.get("/users", async (req, res) => {
+  try {
+    let data = await userApi.getAllUsers();
+    res.json(data);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 router
   .route("/signup")
-  .post(upload.single("myImage"), (req, res, next) => {
-    let newUser = req.body;
-    newUser.picture = req.file.filename;
+  .post(upload.single("myImage"), async (req, res, next) => {
+    try {
+      let user = await userApi.getUserByEmail(req.body.email);
 
-    userModel.find({}, (err, data) => {
-      users = data;
-      if (users === undefined)
-        userModel.create(newUser, (err, result) => {
-          if (err) console.log("errr", err);
-          res.end("Signup Successful!!!!");
-        });
-      else
-        for (let user of users) {
-          if (user.email === newUser.email || user.phone === newUser.phone) {
-            res.end("User already exists!!");
-          } else
-            userModel.create(newUser, (err, result) => {
-              if (err) console.log("errr", err);
-              res.end("Signup Successful!!!!");
-            });
-        }
-    });
+      if (user) res.end("User already exists!!");
+      else {
+        let newUser = req.body;
+        newUser.picture = req.file.filename;
+        await userApi.addUser(newUser);
+        res.end("Signup Successful!!!!");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   })
   .get((req, res) => {
     res.sendFile(__dirname + "/public/signup.html");
@@ -97,30 +90,62 @@ router
 
 router
   .route("/login")
-  .post((req, res) => {
-    userModel.find({}, (err, data) => {
-      users = data;
-      for (let user of users) {
-        if (
-          user.email === req.body.email &&
-          user.password === req.body.password
-        ) {
-          let resultMarkup = markup.replace(
-            "$welcomeNote$",
-            `Welcome ${user.name}`
+  .post(async (req, res) => {
+    try {
+      let user = await userApi.getUserByEmail(req.body.email);
+      if (user) {
+        let resultMarkup = markup.replace(
+          "$welcomeNote$",
+          `Welcome ${user.name.toUpperCase()}`
+        );
+        if (user.picture.includes("http")) {
+          resultMarkup = resultMarkup.replace(
+            "$displayPicture$",
+            `${user.picture}`
           );
+        } else {
           resultMarkup = resultMarkup.replace(
             "$displayPicture$",
             `/uploads/${user.picture}`
           );
-          return res.end(resultMarkup);
         }
-      }
-      res.end("User or password doesnt match!!");
-    });
+        res.end(resultMarkup);
+      } else res.end("User or password doesnt match!!");
+    } catch (err) {
+      console.log(err);
+    }
   })
   .get((req, res) => {
     res.sendFile(__dirname + "/public/login.html");
   });
+
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile"] })
+);
+
+router.get(
+  "/auth/google/redirect",
+  passport.authenticate("google"),
+  (req, res) => {
+    // let resultMarkup = markup.replace(
+    //   "$welcomeNote$",
+    //   `Welcome ${user.name.toUpperCase()}`
+    // );
+    // if (user.picture.includes("http")) {
+    //   resultMarkup = resultMarkup.replace(
+    //     "$displayPicture$",
+    //     `${user.picture}`
+    //   );
+    // } else {
+    //   resultMarkup = resultMarkup.replace(
+    //     "$displayPicture$",
+    //     `/uploads/${user.picture}`
+    //   );
+    // }
+    // res.end(resultMarkup);
+    res.send("Logged In");
+  }
+);
 
 module.exports = router;

@@ -1,9 +1,9 @@
 {
   "user1": {
     "id": 1,
-    "name": "mahesh",
+    "name": "ragnar",
     "password": "password1",
-    "profession": "teacher"
+    "profession": "viking"
   },
   "user2": {
     "id": 2,
