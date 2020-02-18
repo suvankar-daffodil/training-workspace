@@ -6,7 +6,75 @@ const userApi = require("./api");
 
 const router = express.Router();
 
-const markup = `<!DOCTYPE html>
+const upload = multer({ dest: "./public/uploads/" });
+
+router.get("/users", async (req, res) => {
+  try {
+    let data = await userApi.getAllUsers();
+    res.json(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router
+  .route("/signup")
+  .post(upload.single("myImage"), async (req, res, next) => {
+    try {
+      let user = await userApi.getUserByEmail(req.body.email);
+
+      if (user) res.end("User already exists!!");
+      else {
+        let newUser = req.body;
+        newUser.picture = req.file.filename;
+        await userApi.addUser(newUser);
+        res.end("Signup Successful!!!!");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  })
+  .get((req, res) => {
+    res.sendFile(__dirname + "/public/signup.html");
+  });
+
+router
+  .route("/login")
+  .post(async (req, res, next) => {
+    try {
+      let user = await userApi.getUserByEmail(req.body.email);
+      req.user = user;
+      if (user) {
+        return next();
+      } else res.end("User or password doesnt match!!");
+    } catch (err) {
+      console.log(err);
+    }
+  }, playGame)
+  .get((req, res) => {
+    res.sendFile(__dirname + "/public/login.html");
+  }, playGame);
+
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/auth/google/redirect",
+  passport.authenticate("google"),
+  (req, res, next) => {
+    return next();
+  },
+  playGame
+);
+
+function playGame(req, res) {
+  res.sendFile(__dirname + "/public/game/snakesAndLadders.html");
+}
+
+function profilePage(req, res) {
+  const markup = `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -56,96 +124,25 @@ const markup = `<!DOCTYPE html>
   </body>
 </html>`;
 
-const upload = multer({ dest: "./public/uploads/" });
-
-router.get("/users", async (req, res) => {
-  try {
-    let data = await userApi.getAllUsers();
-    res.json(data);
-  } catch (err) {
-    console.log(err);
+  let user = req.user;
+  let resultMarkup;
+  if (user.googleId) {
+    resultMarkup = markup.replace(
+      "$welcomeNote$",
+      `Welcome ${user.name.toUpperCase()}`
+    );
+    resultMarkup = resultMarkup.replace("$displayPicture$", `${user.picture}`);
+    res.end(resultMarkup);
+  } else {
+    user = resultMarkup = markup.replace(
+      "$welcomeNote$",
+      `Welcome ${user.name.toUpperCase()}`
+    );
+    resultMarkup = resultMarkup.replace(
+      "$displayPicture$",
+      `/uploads/${user.picture}`
+    );
   }
-});
-
-router
-  .route("/signup")
-  .post(upload.single("myImage"), async (req, res, next) => {
-    try {
-      let user = await userApi.getUserByEmail(req.body.email);
-
-      if (user) res.end("User already exists!!");
-      else {
-        let newUser = req.body;
-        newUser.picture = req.file.filename;
-        await userApi.addUser(newUser);
-        res.end("Signup Successful!!!!");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  })
-  .get((req, res) => {
-    res.sendFile(__dirname + "/public/signup.html");
-  });
-
-router
-  .route("/login")
-  .post(async (req, res) => {
-    try {
-      let user = await userApi.getUserByEmail(req.body.email);
-      if (user) {
-        let resultMarkup = markup.replace(
-          "$welcomeNote$",
-          `Welcome ${user.name.toUpperCase()}`
-        );
-        if (user.picture.includes("http")) {
-          resultMarkup = resultMarkup.replace(
-            "$displayPicture$",
-            `${user.picture}`
-          );
-        } else {
-          resultMarkup = resultMarkup.replace(
-            "$displayPicture$",
-            `/uploads/${user.picture}`
-          );
-        }
-        res.end(resultMarkup);
-      } else res.end("User or password doesnt match!!");
-    } catch (err) {
-      console.log(err);
-    }
-  })
-  .get((req, res) => {
-    res.sendFile(__dirname + "/public/login.html");
-  });
-
-router.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile"] })
-);
-
-router.get(
-  "/auth/google/redirect",
-  passport.authenticate("google"),
-  (req, res) => {
-    // let resultMarkup = markup.replace(
-    //   "$welcomeNote$",
-    //   `Welcome ${user.name.toUpperCase()}`
-    // );
-    // if (user.picture.includes("http")) {
-    //   resultMarkup = resultMarkup.replace(
-    //     "$displayPicture$",
-    //     `${user.picture}`
-    //   );
-    // } else {
-    //   resultMarkup = resultMarkup.replace(
-    //     "$displayPicture$",
-    //     `/uploads/${user.picture}`
-    //   );
-    // }
-    // res.end(resultMarkup);
-    res.send("Logged In");
-  }
-);
+}
 
 module.exports = router;

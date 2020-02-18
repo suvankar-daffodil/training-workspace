@@ -25,5 +25,19 @@ module.exports = {
       });
     }),
 
-  addUser: newUser => userModel.create(newUser)
+  getUserById: userId =>
+    new Promise((resolve, reject) => {
+      userModel.findById(userId, (err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    }),
+
+  addUser: newUser =>
+    new Promise((resolve, reject) => {
+      new userModel(newUser).save((err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    })
 };

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Snakes & Ladders</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="/game/snakesAndLadders.css"
+    />
+    <script src="/game/snakes&Ladders.js"></script>
+  </head>
+
+  <body>
+    <img src="/game/assets/back-1.png" style="height: 90%;width: 15%;" />
+
+    <div class="parent">
+      <!-- <img class="snake1" src="assets/snake_4.png"> -->
+
+      <div
+        style="position: relative;width: 70%; height: 100%;
+        float: left;"
+      >
+        <img class="snake1" src="/game/assets/snake_4.png" />
+        <img class="snake2" src="/game/assets/snake_3.png" />
+        <img class="snake3" src="/game/assets/snake_3.png" />
+        <img class="ladder1" src="/game/assets/ladder_brown.png" />
+        <img class="ladder2" src="/game/assets/ladder_2.png" />
+
+        <div class="grid box-shadow">
+          <!-- grid items created programatically -->
+        </div>
+      </div>
+
+      <div class="control-panel">
+        <div class="game-panel" style=" display: none;">
+          <div class="dice-row">
+            <div
+              style="font-size: larger; font-weight: bolder; color: white;"
+              class="dice-message"
+            >
+              Player 1's turn. Roll the dice!!
+            </div>
+            <img
+              onclick="playerScoreUpdate()"
+              class="dice box-shadow hover-effect"
+              src="/game/assets/dice-1.png"
+            />
+            <div
+              style="font-size: larger; font-weight: bolder; color: white;"
+              class="obstruction-message"
+            ></div>
+          </div>
+          <div class="player-row">
+            <div id="player1" style="text-align: center;">
+              <img class="active-player box-shadow" src="/game/assets/player1.png" />
+              <div
+                style="font-size: larger; font-weight: bolder; color: white;"
+                id="player1-score"
+              >
+                Score - 0
+              </div>
+            </div>
+            <div id="player2" style="text-align: center;">
+              <img class="box-shadow" src="/game/assets/player2.png" />
+              <div
+                style="font-size: larger; font-weight: bolder; color: white;"
+                id="player2-score"
+              >
+                Score - 0
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="launch-panel">
+          <div
+            class="start-button box-shadow hover-effect"
+            onclick="gameStart()"
+          >
+            START GAME
+          </div>
+        </div>
+      </div>
+    </div>
+    <img src="/game/assets/back-2.png" style="height: 90%;width: 15%;" />
+  </body>
+</html>

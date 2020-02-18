@@ -7,8 +7,8 @@
 header,
 nav,
 .container,
-.odd-row,
-.even-row {
+.container .main .odd-row,
+.container .main .even-row {
   display: flex;
   flex-flow: row wrap;
 }

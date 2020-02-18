@@ -1,64 +1,88 @@
-const fs = require("fs");
 const express = require("express");
-const bodyParser = require("body-parser");
+
+// const openvpnmanager = require("node-openvpn");
 
 const app = express();
 
-let users;
+// const opts = {
+//   // host: "VPN-LB-55f6bf77beeebe72.elb.us-east-1.amazonaws.com", // normally '127.0.0.1', will default to if undefined
+//   // port: 443, //port openvpn management console
+//   // timeout: 1500, //timeout for connection - optional, will default to 1500ms if undefined
+//   config: "./sample.ovpn"
+// };
+// const auth = {
+//   user: "113aeb45329ad34ccada",
+//   pass: "5c5bdd03ce382"
+// };
 
-fs.readFile("./users.json", (err, data) => {
-  if (err) {
-    console.log("Error reading file...");
-  } else {
-    users = JSON.parse(data);
-  }
-});
+// // {
+// //   "username": "113aeb45329ad34ccada",
+// //   "password": "5c5bdd03ce382",
+// //   "serverAddress": "VPN-LB-55f6bf77beeebe72.elb.us-east-1.amazonaws.com",
+// //   "port": 443
+// // }
 
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true
+// const openvpn = openvpnmanager.connect(opts);
+
+// // will be emited on successful interfacing with openvpn instance
+// openvpn.on("connected", () => {
+//   console.log("connected");
+//   openvpnmanager.authorize(auth);
+// });
+
+// // emits console output of openvpn instance as a string
+// openvpn.on("console-output", output => {
+//   console.log(output);
+// });
+
+// // emits console output of openvpn state as a array
+// openvpn.on("state-change", state => {
+//   console.log(state);
+// });
+
+// // emits console output of openvpn state as a string
+// openvpn.on("error", error => {
+//   console.log(error);
+// });
+
+// // get all console logs up to this point
+// // openvpnmanager.getLog(console.log);
+
+// // and finally when/if you want to
+// // openvpnmanager.disconnect();
+
+// // emits on disconnect
+// openvpn.on("disconnected", () => {
+//   // finally destroy the disconnected manager
+//   openvpnmanager.destroy();
+//   console.log("disconnected");
+// });
+
+var openvpnmanager = require("node-openvpn");
+var openvpnBin = require("openvpn-bin");
+var path = require("path");
+
+openvpnBin
+  .initialize("openvpn", {
+    // host: "VPN-LB-55f6bf77beeebe72.elb.us-east-1.amazonaws.com",
+    // port: 443,
+    config: path.normalize("./sample.ovpn")
   })
-);
-
-app.get("/", (req, res) => {
-  res.send(
-    "<h3>Visit /users to see user list and /users/{id} to get individual user.</h3>"
-  );
-});
-
-app
-  .route("/users")
-  .get((req, res) => {
-    res.end(JSON.stringify(users, null, 4));
-  })
-  .post((req, res) => {
-    let newUser = req.body;
-    users[`user${newUser.id}`] = newUser;
-    fs.writeFile("users.json", JSON.stringify(users), err => {
-      if (err) throw err;
-      res.end(JSON.stringify(newUser));
+  .then(function() {
+    var managerInstance = openvpnmanager.connect({
+      host: "VPN-LB-55f6bf77beeebe72.elb.us-east-1.amazonaws.com",
+      port: 443
     });
-  });
 
-app
-  .route("/users/:id")
-  .get((req, res) => {
-    res.end(JSON.stringify(users[`user${req.params.id}`], null, 4));
-  })
-  .put((req, res) => {
-    let updatedUser = req.body;
-    users[`user${req.params.id}`] = updatedUser;
-    fs.writeFile("users.json", JSON.stringify(users), err => {
-      if (err) throw err;
-      res.end(JSON.stringify(users));
+    managerInstance.on("connected", function() {
+      managerInstance.authorize({
+        user: "113aeb45329ad34ccada",
+        pass: "5c5bdd03ce382"
+      });
     });
-  })
-  .delete((req, res) => {
-    delete users[`user${req.params.id}`];
-    fs.writeFile("users.json", JSON.stringify(users), err => {
-      if (err) throw err;
-      res.end(JSON.stringify(users));
+
+    managerInstance.on("console-output", function(output) {
+      console.log(output);
     });
   });
 
