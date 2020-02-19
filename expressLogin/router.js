@@ -43,8 +43,8 @@ router
   .post(async (req, res, next) => {
     try {
       let user = await userApi.getUserByEmail(req.body.email);
-      req.user = user;
       if (user) {
+        req.user = user;
         return next();
       } else res.end("User or password doesnt match!!");
     } catch (err) {
@@ -70,7 +70,7 @@ router.get(
 );
 
 function playGame(req, res) {
-  res.sendFile(__dirname + "/public/game/snakesAndLadders.html");
+  return res.sendFile(__dirname + "/public/game/snakesAndLadders.html");
 }
 
 function profilePage(req, res) {
@@ -132,7 +132,6 @@ function profilePage(req, res) {
       `Welcome ${user.name.toUpperCase()}`
     );
     resultMarkup = resultMarkup.replace("$displayPicture$", `${user.picture}`);
-    res.end(resultMarkup);
   } else {
     user = resultMarkup = markup.replace(
       "$welcomeNote$",
@@ -143,6 +142,7 @@ function profilePage(req, res) {
       `/uploads/${user.picture}`
     );
   }
+  return res.end(resultMarkup);
 }
 
 module.exports = router;
