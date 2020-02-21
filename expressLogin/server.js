@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const googleStrategy = require("passport-google-oauth20");
+const cors = require("cors");
 
 const userApi = require("./api");
 const router = require("./router");
@@ -13,6 +14,18 @@ mongoose.connect("mongodb://192.168.100.171/mongooseTest", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
+app.use(function(req, res, next) {
+  console.log("HIT HIT");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+// app.use(cors());
 
 app.use(
   bodyParser.json(),

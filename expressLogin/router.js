@@ -19,7 +19,7 @@ router.get("/users", async (req, res) => {
 
 router
   .route("/signup")
-  .post(upload.single("myImage"), async (req, res, next) => {
+  .post(upload.single("image"), async (req, res, next) => {
     try {
       let user = await userApi.getUserByEmail(req.body.email);
 
