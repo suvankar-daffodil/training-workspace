@@ -10,22 +10,12 @@ const userApi = require("./api");
 const router = require("./router");
 
 const app = express();
-mongoose.connect("mongodb://192.168.100.171/mongooseTest", {
+mongoose.connect("mongodb://localhost/mongooseTest", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
-app.use(function(req, res, next) {
-  console.log("HIT HIT");
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-
-// app.use(cors());
+app.use(cors());
 
 app.use(
   bodyParser.json(),
@@ -61,7 +51,6 @@ passport.use(
     async (accessToken, refreshToken, profileData, done) => {
       try {
         let user = await userApi.getUserByGoogleId(profileData.id);
-
         if (!user) {
           let newUser = {
             name: profileData.displayName,
@@ -71,6 +60,8 @@ passport.use(
           };
           let insertedUser = await userApi.addUser(newUser);
           done(null, insertedUser);
+        } else {
+          done(null, user);
         }
       } catch (err) {
         console.log(err);

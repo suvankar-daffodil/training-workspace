@@ -114,12 +114,12 @@ class SignupFormComponent extends React.Component {
           />
 
           <div className="clearfix">
-            {/* <a className="cancelbtn" href="this.onAuthenticate">
+            <a className="cancelbtn" href="http://localhost:5000/auth/google">
               SignUp with Google+
-            </a> */}
-            <button className="cancelbtn" onClick={this.onAuthenticate}>
+            </a>
+            {/* <button className="cancelbtn" onClick={this.onAuthenticate}>
               SignUp with Google+
-            </button>
+            </button> */}
             <button type="submit" className="signupbtn">
               Sign Up
             </button>

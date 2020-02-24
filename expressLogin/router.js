@@ -19,21 +19,26 @@ router.get("/users", async (req, res) => {
 
 router
   .route("/signup")
-  .post(upload.single("image"), async (req, res, next) => {
-    try {
-      let user = await userApi.getUserByEmail(req.body.email);
+  .post(
+    upload.single("image"),
+    async (req, res, next) => {
+      try {
+        let user = await userApi.getUserByEmail(req.body.email);
 
-      if (user) res.end("User already exists!!");
-      else {
-        let newUser = req.body;
-        newUser.picture = req.file.filename;
-        await userApi.addUser(newUser);
-        res.end("Signup Successful!!!!");
+        if (user) res.end("User already exists!!");
+        else {
+          let newUser = req.body;
+          newUser.picture = req.file.filename;
+          await userApi.addUser(newUser);
+          return next();
+          // res.end("Signup Successful!!!!");
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
-    }
-  })
+    },
+    playGame
+  )
   .get((req, res) => {
     res.sendFile(__dirname + "/public/signup.html");
   });
@@ -53,7 +58,7 @@ router
   }, playGame)
   .get((req, res) => {
     res.sendFile(__dirname + "/public/login.html");
-  }, playGame);
+  });
 
 router.get(
   "/auth/google",
