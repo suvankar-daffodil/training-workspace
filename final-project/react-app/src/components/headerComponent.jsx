@@ -21,7 +21,7 @@ const Header = () => {
             </a>
             <div className="pro_info pull-right">
               <div className="pro_icn">
-                <img src="images/pic_small.png" />
+                <img src="/images/pic_small.png" />
               </div>
               <div className="pro_txt">
                 Me<b className="caret"></b>
@@ -76,17 +76,17 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <div class="header">
-        <div class="header_lft">
-          <div class="logo">
+      <div className="header">
+        <div className="header_lft">
+          <div className="logo">
             <a href="#">
-              <img src="images/logo.png" />
+              <img src="/images/logo.png" />
             </a>
           </div>
-          <div class="navigatn">
+          <div className="navigatn">
             <ul>
               <li>
-                <a href="#" class="active">
+                <a href="#" className="active">
                   Home
                 </a>
               </li>
@@ -105,21 +105,21 @@ const Header = () => {
             </ul>
           </div>
         </div>
-        <div class="header_rgt">
-          <div class="flag_div">
-            <img src="images/flag.png" />
+        <div className="header_rgt">
+          <div className="flag_div">
+            <img src="/images/flag.png" />
           </div>
-          <input type="text" placeholder="Search" class="txt_box" />
-          <div class="msg_box">
+          <input type="text" placeholder="Search" className="txt_box" />
+          <div className="msg_box">
             <a href="#">
-              <span class="msg_count">100</span>
+              <span className="msg_count">100</span>
             </a>
           </div>
-          <div class="info_div">
-            <div class="image_div">
-              <img src="images/pic.png" />
+          <div className="info_div">
+            <div className="image_div">
+              <img src="/images/pic.png" />
             </div>
-            <div class="info_div1">Me</div>
+            <div className="info_div1">Me</div>
           </div>
         </div>
       </div>

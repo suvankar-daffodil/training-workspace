@@ -34,7 +34,7 @@ export default class SignIn extends React.Component {
             </li>
           </ul>
           <div className="addtnal_acnt">
-            I do not have any account yet.<a href="">Create My Account Now !</a>
+            I do not have any account yet.<a href="/register">Create My Account Now !</a>
           </div>
         </div>
       </div>
