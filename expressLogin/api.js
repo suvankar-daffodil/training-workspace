@@ -1,6 +1,14 @@
-const userModel = require("./model");
+const userModel = require("./userSchema");
+const postModel = require("./postSchema");
 
 module.exports = {
+  getAllPosts: () =>
+    new Promise((resolve, reject) => {
+      postModel.find({}, {}, (err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    }),
   getAllUsers: () =>
     new Promise((resolve, reject) => {
       userModel.find({}, {}, (err, data) => {
@@ -36,6 +44,14 @@ module.exports = {
   addUser: newUser =>
     new Promise((resolve, reject) => {
       new userModel(newUser).save((err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    }),
+
+  addPost: newPost =>
+    new Promise((resolve, reject) => {
+      new postModel(newPost).save((err, data) => {
         if (err) reject(err);
         else resolve(data);
       });

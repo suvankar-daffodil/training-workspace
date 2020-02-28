@@ -1,15 +1,16 @@
 import React from "react";
 
-import MainComponent from "../components/mainComponent";
 import WelcomeComponent from "../components/welcomeComponent";
 import SignIn from "../components/signInFormComponent";
 
-const LoginPage = () => {
+const LoginPage = props => {
   return (
-    <MainComponent>
-      <WelcomeComponent />
-      <SignIn />
-    </MainComponent>
+    <div className="container">
+      <div className="content">
+        <WelcomeComponent />
+        <SignIn {...props} />
+      </div>
+    </div>
   );
 };
 

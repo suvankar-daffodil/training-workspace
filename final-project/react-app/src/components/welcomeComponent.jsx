@@ -2,9 +2,9 @@ import React from "react";
 
 const WelcomeComponent = () => {
   return (
-    <div class="content_lft">
+    <div className="content_lft">
       <h1>Welcome from PPL!</h1>
-      <p class="discrptn">
+      <p className="discrptn">
         There are many variations of passages of Lorem Ipsum available, but the
         majority have suffered alteration in some form, by injected humour, or
         randomised words which don't look even slightly believable. If you are

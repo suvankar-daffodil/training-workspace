@@ -1,3 +1,7 @@
+/orcamap
+
+/expressLogin/public/uploads/
+
 # Logs
 logs
 *.log

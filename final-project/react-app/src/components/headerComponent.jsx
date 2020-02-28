@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = props => {
   return (
     <div>
       <div className="navbar navbar-inverse navbar-fixed-top">
@@ -12,13 +13,13 @@ const Header = () => {
               data-toggle="collapse"
               data-target=".nav-collapse"
             >
-              <span className="icon-bar"></span>{" "}
+              <span className="icon-bar"></span>
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="brand" href="">
+            <Link className="brand" to="/">
               PPL
-            </a>
+            </Link>
             <div className="pro_info pull-right">
               <div className="pro_icn">
                 <img src="/images/pic_small.png" />
@@ -32,44 +33,44 @@ const Header = () => {
                 aria-labelledby="dLabel"
               >
                 <li>
-                  <a tabIndex="-1" href="#">
+                  <Link tabIndex="-1" to="#">
                     My Profile
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a tabIndex="-1" href="#">
+                  <Link tabIndex="-1" to="#">
                     Message Box
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a tabIndex="-1" href="#">
+                  <Link tabIndex="-1" to="#">
                     Change Language
-                  </a>
+                  </Link>
                 </li>
                 <li className="divider"></li>
                 <li>
-                  <a tabIndex="-1" href="#">
+                  <Link tabIndex="-1" to="#">
                     <input type="text" placeholder="search" />
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
             <div className="nav-collapse collapse">
               <ul className="nav">
                 <li className="active">
-                  <a href="">Home</a>
+                  <Link to="/">Home</Link>
                 </li>
                 <li className="">
-                  <a href="">E-Coupons</a>
+                  <Link to="">E-Coupons</Link>
                 </li>
                 <li className="">
-                  <a href="">E-Brands</a>
+                  <Link to="">E-Brands</Link>
                 </li>
                 <li className="">
-                  <a href="">Resuse Market</a>
+                  <Link to="">Resuse Market</Link>
                 </li>
                 <li className="">
-                  <a href="">Lost and Found</a>
+                  <Link to="">Lost and Found</Link>
                 </li>
               </ul>
             </div>
@@ -79,29 +80,38 @@ const Header = () => {
       <div className="header">
         <div className="header_lft">
           <div className="logo">
-            <a href="#">
+            <Link to="/">
               <img src="/images/logo.png" />
-            </a>
+            </Link>
           </div>
           <div className="navigatn">
             <ul>
               <li>
-                <a href="#" className="active">
+                <Link to="/" className="active">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#"> E-Coupons </a>
+                <Link to="#"> E-Coupons </Link>
               </li>
               <li>
-                <a href="#">E-Brands </a>
+                <Link to="#">E-Brands </Link>
               </li>
               <li>
-                <a href="#"> Resuse Market </a>
+                <Link to="#"> Resuse Market </Link>
               </li>
-              <li>
-                <a href="#"> Lost and Found</a>
-              </li>
+              {/* <li>
+                <Link to="#"> Lost and Found</Link>
+              </li> */}
+              {props.currentUser ? (
+                <li>
+                  <span onClick={() => props.toggleAuthState(null)}>
+                    Signout
+                  </span>
+                </li>
+              ) : (
+                <></>
+              )}
             </ul>
           </div>
         </div>
@@ -111,9 +121,9 @@ const Header = () => {
           </div>
           <input type="text" placeholder="Search" className="txt_box" />
           <div className="msg_box">
-            <a href="#">
+            <Link to="#">
               <span className="msg_count">100</span>
-            </a>
+            </Link>
           </div>
           <div className="info_div">
             <div className="image_div">

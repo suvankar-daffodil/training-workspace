@@ -1,102 +1,103 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const SidePanel = () => {
+const SidePanel = props => {
   return (
-    <div class="content_rgt">
-      <div class="rght_btn">
-        <span class="rght_btn_icon">
+    <div className="content_rgt">
+      <div className="rght_btn">
+        <span className="rght_btn_icon">
           <img src="images/btn_iconb.png" alt="up" />
         </span>
-        <span class="btn_sep">
+        <span className="btn_sep">
           <img src="images/btn_sep.png" alt="sep" />
         </span>
-        <a href="#">Upload Post</a>
+        <Link to="/createNewPost">Upload Post</Link>
       </div>
-      <div class="rght_btn">
-        <span class="rght_btn_icon">
+      <div className="rght_btn">
+        <span className="rght_btn_icon">
           <img src="images/btn_icona.png" alt="up" />
         </span>
-        <span class="btn_sep">
+        <span className="btn_sep">
           <img src="images/btn_sep.png" alt="sep" />
         </span>
-        <a href="#">Invite Friends</a>
+        <Link to="#">Invite Friends</Link>
       </div>
-      <div class="rght_cate">
-        <div class="rght_cate_hd" id="rght_cat_bg">
+      <div className="rght_cate">
+        <div className="rght_cate_hd" id="rght_cat_bg">
           Categories
         </div>
-        <div class="rght_list">
+        <div className="rght_list">
           <ul>
             <li>
-              <a href="#">
-                <span class="list_icon">
+              <div onClick={() => props.onTagChange("CAT")}>
+                <span className="list_icon">
                   <img src="images/icon_01.png" alt="up" />
                 </span>
                 CATS
-              </a>
+              </div>
             </li>
             <li>
-              <a href="#">
-                <span class="list_icon">
+              <div onClick={() => props.onTagChange("DOG")}>
+                <span className="list_icon">
                   <img src="images/icon_02.png" alt="up" />
                 </span>
                 Dogs
-              </a>
+              </div>
             </li>
             <li>
-              <a href="#">
-                <span class="list_icon">
+              <div onClick={() => props.onTagChange("BIRD")}>
+                <span className="list_icon">
                   <img src="images/icon_03.png" alt="up" />
                 </span>
                 Birds
-              </a>
+              </div>
             </li>
             <li>
-              <a href="#">
-                <span class="list_icon">
+              <div onClick={() => props.onTagChange("RABBIT")}>
+                <span className="list_icon">
                   <img src="images/icon_04.png" alt="up" />
                 </span>
-                Rabbit
-              </a>
+                Rabbits
+              </div>
             </li>
             <li>
-              <a href="#">
-                <span class="list_icon">
+              <div onClick={() => props.onTagChange("OTHERS")}>
+                <span className="list_icon">
                   <img src="images/icon_05.png" alt="up" />
                 </span>
                 Others
-              </a>
+              </div>
             </li>
           </ul>
         </div>
       </div>
-      <div class="rght_cate">
-        <div class="rght_cate_hd" id="opn_cat_bg">
+      <div className="rght_cate">
+        <div className="rght_cate_hd" id="opn_cat_bg">
           Featured
         </div>
-        <div class="sub_dwn">
-          <div class="feat_sec">
-            <div class="feat_sec_img">
+        <div className="sub_dwn">
+          <div className="feat_sec">
+            <div className="feat_sec_img">
               <img src="images/feat_img1.png" alt="image" />
             </div>
-            <div class="feat_txt">Lorem Ipusum Text</div>
+            <div className="feat_txt">Lorem Ipusum Text</div>
           </div>
-          <div class="feat_sec">
-            <div class="feat_sec_img">
+          <div className="feat_sec">
+            <div className="feat_sec_img">
               <img src="images/feat_img2.png" alt="image" />
             </div>
-            <div class="feat_txt">Lorem Ipusum Text</div>
-            <div class="btm_rgt">
-              <div class="btm_arc">Dogs</div>
+            <div className="feat_txt">Lorem Ipusum Text</div>
+            <div className="btm_rgt">
+              <div className="btm_arc">Dogs</div>
             </div>
           </div>
-          <div class="feat_sec">
-            <div class="feat_sec_img">
+          <div className="feat_sec">
+            <div className="feat_sec_img">
               <img src="images/feat_img3.png" alt="image" />
             </div>
-            <div class="feat_txt">Lorem Ipusum Text</div>
-            <div class="btm_rgt">
-              <div class="btm_arc">Rabbits</div>
+            <div className="feat_txt">Lorem Ipusum Text</div>
+            <div className="btm_rgt">
+              <div className="btm_arc">Rabbits</div>
             </div>
           </div>
         </div>

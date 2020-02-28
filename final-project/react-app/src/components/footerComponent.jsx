@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -8,31 +9,31 @@ const Footer = () => {
           Copyright © Pet-Socail 2014 All Rights Reserved
         </div>
         <div className="footer_div2">
-          <a href="#">Privacy Policy </a>|{" "}
-          <a href="#"> Terms &amp; Conditions</a>
+          <Link to="#">Privacy Policy </Link>|{" "}
+          <Link to="#"> Terms &amp; Conditions</Link>
         </div>
       </div>
       <div className="footr_rgt">
         <ul>
           <li>
-            <a href="#">
+            <Link to="#">
               <img src="/images/social_1.png" />
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#">
+            <Link to="#">
               <img src="/images/social_2.png" />
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#">
+            <Link to="#">
               <img src="/images/social_3.png" />
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#">
+            <Link to="#">
               <img src="/images/social_4.png" />
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

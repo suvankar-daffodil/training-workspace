@@ -2,8 +2,8 @@ import React from "react";
 
 const ResetPasswordComponent = () => {
   return (
-    <div class="content_rgt">
-      <div class="register_sec">
+    <div className="content_rgt">
+      <div className="register_sec">
         <h1>Reset Password</h1>
         <ul>
           <li>

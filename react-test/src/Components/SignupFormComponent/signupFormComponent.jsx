@@ -6,6 +6,8 @@ class SignupFormComponent extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log(props);
+
     this.state = {
       name: null,
       email: null,
@@ -39,6 +41,7 @@ class SignupFormComponent extends React.Component {
   onFormSubmit = event => {
     event.preventDefault();
     let formData = new FormData(event.target);
+    console.log(formData);
     axios
       .post("http://localhost:5000/signup", formData, {
         headers: {

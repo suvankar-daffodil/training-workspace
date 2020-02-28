@@ -19,45 +19,61 @@ router.get("/users", async (req, res) => {
 
 router
   .route("/signup")
-  .post(
-    upload.single("image"),
-    async (req, res, next) => {
-      try {
-        let user = await userApi.getUserByEmail(req.body.email);
+  .post(async (req, res, next) => {
+    try {
+      let user = await userApi.getUserByEmail(req.body.email);
 
-        if (user) res.end("User already exists!!");
-        else {
-          let newUser = req.body;
-          newUser.picture = req.file.filename;
-          await userApi.addUser(newUser);
-          return next();
-          // res.end("Signup Successful!!!!");
-        }
-      } catch (err) {
-        console.log(err);
+      if (user) res.end(null);
+      else {
+        let newUser = req.body;
+        let result = await userApi.addUser(newUser);
+        // return next();
+        res.json(result);
       }
-    },
-    playGame
-  )
+    } catch (err) {
+      console.log(err);
+    }
+  })
   .get((req, res) => {
     res.sendFile(__dirname + "/public/signup.html");
   });
 
 router
   .route("/login")
-  .post(async (req, res, next) => {
+  .post(upload.single("image"), async (req, res, next) => {
     try {
       let user = await userApi.getUserByEmail(req.body.email);
       if (user) {
         req.user = user;
-        return next();
-      } else res.end("User or password doesnt match!!");
+        res.json(user);
+      } else res.end(user);
     } catch (err) {
       console.log(err);
     }
-  }, playGame)
+  })
   .get((req, res) => {
     res.sendFile(__dirname + "/public/login.html");
+  });
+
+router
+  .route("/posts")
+  .post(upload.single("image"), async (req, res) => {
+    try {
+      let post = req.body;
+      post.picture = req.file.filename;
+      let result = await userApi.addPost(post);
+      res.json(result);
+    } catch (err) {
+      console.log(err);
+    }
+  })
+  .get(async (req, res) => {
+    try {
+      let data = await userApi.getAllPosts();
+      res.json(data);
+    } catch (err) {
+      console.log(err);
+    }
   });
 
 router.get(
@@ -70,8 +86,7 @@ router.get(
   passport.authenticate("google"),
   (req, res, next) => {
     return next();
-  },
-  playGame
+  }
 );
 
 function playGame(req, res) {

@@ -1,15 +1,16 @@
 import React from "react";
 
-import MainComponent from "../components/mainComponent";
 import WelcomeComponent from "../components/welcomeComponent";
 import RegisterForm from "../components/registerFormComponent";
 
 const RegisterPage = () => {
   return (
-    <MainComponent>
-      <WelcomeComponent />
-      <RegisterForm />
-    </MainComponent>
+    <div className="container">
+      <div className="content">
+        <WelcomeComponent />
+        <RegisterForm />
+      </div>
+    </div>
   );
 };
 
