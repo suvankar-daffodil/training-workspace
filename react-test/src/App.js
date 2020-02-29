@@ -3,22 +3,44 @@ import "./App.css";
 import SignupForm from "./Components/SignupFormComponent/signupFormComponent";
 import LoginForm from "./Components/LoginFormComponent/loginFormComponent";
 
-import { Switch, Route } from "react-router-dom";
+import Users from "./Components/usersComponent";
+
+import { Switch, Route, Link } from "react-router-dom";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { users: [] };
+  }
+
+  componentDidMount() {
+    fetch("http://localhost:5000/users")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ users: data });
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
     return (
-      <div className="parent">
+      <>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/users">Users</Link>
+          </li>
+        </ul>
         <Switch>
-          <Route path="/signup" component={SignupForm} />
-          <Route path="/login" component={LoginForm} />
+          <Route exact path="/" render={() => <h1>WELCOME TO HOMEPAGE</h1>} />
+          <Route
+            path="/users"
+            render={props => <Users users={this.state.users} {...props} />}
+          />
         </Switch>
-      </div>
+      </>
     );
   }
 }

@@ -9,7 +9,7 @@ const Timeline = props => {
     post.tag.toLowerCase().includes(filterTag.toLowerCase())
   );
   if (filteredPosts.length > 0)
-    return filteredPosts.map(post => <Post post={post} />);
+    return filteredPosts.map(post => <Post key={post._id} post={post} />);
   else return <></>;
 };
 

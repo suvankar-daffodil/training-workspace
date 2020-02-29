@@ -9,7 +9,6 @@ export default class ProfileCardComponent extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="contnt_1">
         <div className="list_1">
@@ -31,12 +30,12 @@ export default class ProfileCardComponent extends React.Component {
                 src={`http://localhost:5000/uploads/${this.props.currentUser.picture}`}
               />
               <div className="profile_text">
-                <span href="#">Change Profile Pic</span>
+                <span>Change Profile Pic</span>
               </div>
             </div>
             <div className="profile_info">
               <div className="edit_div">
-                <Link href="#">
+                <Link to="#">
                   Edit <img src="images/timeline_img.png" />
                 </Link>
               </div>
@@ -69,21 +68,21 @@ export default class ProfileCardComponent extends React.Component {
           <div className="timeline_div2">
             <ul>
               <li>
-                <Link href="#" className="active">
+                <Link to="#" className="active">
                   Timeline
                 </Link>
               </li>
               <li>
-                <Link href="#">About </Link>
+                <Link to="#">About </Link>
               </li>
               <li>
-                <Link href="#">Album </Link>
+                <Link to="#">Album </Link>
               </li>
               <li>
-                <Link href="#"> Pets </Link>
+                <Link to="#"> Pets </Link>
               </li>
               <li>
-                <Link href="#">My Uploads </Link>
+                <Link to="#">My Uploads </Link>
               </li>
             </ul>
           </div>

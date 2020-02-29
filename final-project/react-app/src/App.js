@@ -9,6 +9,7 @@ import LoginPage from "./pages/loginPage";
 import RegisterPage from "./pages/registerPage";
 import HomePage from "./pages/homePage";
 import CreateNewPostPage from "./pages/createNewPostPage";
+import SinglePostPage from "./pages/createNewPostPage";
 
 class App extends React.Component {
   state = {
@@ -94,6 +95,10 @@ class App extends React.Component {
                 <Redirect to="/login" />
               )
             }
+          />
+          <Route
+            path="/posts/:postId"
+            render={props => <HomePage {...props} />}
           />
         </Switch>
         <Footer />

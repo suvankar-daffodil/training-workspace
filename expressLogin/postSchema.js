@@ -10,7 +10,7 @@ let postSchema = mongoose.Schema(
     date: String,
     time: String,
     likes: Number,
-    comments: Number
+    comments: [String]
   },
   {
     versionKey: false

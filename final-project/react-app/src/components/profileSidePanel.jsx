@@ -6,19 +6,19 @@ const SidePanel = props => {
     <div className="content_rgt">
       <div className="rght_btn">
         <span className="rght_btn_icon">
-          <img src="images/btn_iconb.png" alt="up" />
+          <img src="/images/btn_iconb.png" alt="up" />
         </span>
         <span className="btn_sep">
-          <img src="images/btn_sep.png" alt="sep" />
+          <img src="/images/btn_sep.png" alt="sep" />
         </span>
         <Link to="/createNewPost">Upload Post</Link>
       </div>
       <div className="rght_btn">
         <span className="rght_btn_icon">
-          <img src="images/btn_icona.png" alt="up" />
+          <img src="/images/btn_icona.png" alt="up" />
         </span>
         <span className="btn_sep">
-          <img src="images/btn_sep.png" alt="sep" />
+          <img src="/images/btn_sep.png" alt="sep" />
         </span>
         <Link to="#">Invite Friends</Link>
       </div>
@@ -31,7 +31,7 @@ const SidePanel = props => {
             <li>
               <div onClick={() => props.onTagChange("CAT")}>
                 <span className="list_icon">
-                  <img src="images/icon_01.png" alt="up" />
+                  <img src="/images/icon_01.png" alt="up" />
                 </span>
                 CATS
               </div>
@@ -39,7 +39,7 @@ const SidePanel = props => {
             <li>
               <div onClick={() => props.onTagChange("DOG")}>
                 <span className="list_icon">
-                  <img src="images/icon_02.png" alt="up" />
+                  <img src="/images/icon_02.png" alt="up" />
                 </span>
                 Dogs
               </div>
@@ -47,7 +47,7 @@ const SidePanel = props => {
             <li>
               <div onClick={() => props.onTagChange("BIRD")}>
                 <span className="list_icon">
-                  <img src="images/icon_03.png" alt="up" />
+                  <img src="/images/icon_03.png" alt="up" />
                 </span>
                 Birds
               </div>
@@ -55,7 +55,7 @@ const SidePanel = props => {
             <li>
               <div onClick={() => props.onTagChange("RABBIT")}>
                 <span className="list_icon">
-                  <img src="images/icon_04.png" alt="up" />
+                  <img src="/images/icon_04.png" alt="up" />
                 </span>
                 Rabbits
               </div>
@@ -63,7 +63,7 @@ const SidePanel = props => {
             <li>
               <div onClick={() => props.onTagChange("OTHERS")}>
                 <span className="list_icon">
-                  <img src="images/icon_05.png" alt="up" />
+                  <img src="/images/icon_05.png" alt="up" />
                 </span>
                 Others
               </div>
@@ -78,13 +78,13 @@ const SidePanel = props => {
         <div className="sub_dwn">
           <div className="feat_sec">
             <div className="feat_sec_img">
-              <img src="images/feat_img1.png" alt="image" />
+              <img src="/images/feat_img1.png" alt="image" />
             </div>
             <div className="feat_txt">Lorem Ipusum Text</div>
           </div>
           <div className="feat_sec">
             <div className="feat_sec_img">
-              <img src="images/feat_img2.png" alt="image" />
+              <img src="/images/feat_img2.png" alt="image" />
             </div>
             <div className="feat_txt">Lorem Ipusum Text</div>
             <div className="btm_rgt">
@@ -93,7 +93,7 @@ const SidePanel = props => {
           </div>
           <div className="feat_sec">
             <div className="feat_sec_img">
-              <img src="images/feat_img3.png" alt="image" />
+              <img src="/images/feat_img3.png" alt="image" />
             </div>
             <div className="feat_txt">Lorem Ipusum Text</div>
             <div className="btm_rgt">

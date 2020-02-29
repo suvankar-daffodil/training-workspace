@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Post = props => {
   return (
@@ -19,10 +20,12 @@ const Post = props => {
           </div>
         </div>
         <div className="div_image">
-          <img
-            src={`http://localhost:5000/uploads/${props.post.picture}`}
-            alt="pet"
-          />
+          <Link to={`/posts/${props.post._id}`}>
+            <img
+              src={`http://localhost:5000/uploads/${props.post.picture}`}
+              alt="pet"
+            />
+          </Link>
         </div>
         <div className="div_btm">
           <div className="btm_list">

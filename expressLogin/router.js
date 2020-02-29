@@ -22,16 +22,14 @@ router
   .post(async (req, res, next) => {
     try {
       let user = await userApi.getUserByEmail(req.body.email);
-
       if (user) res.end(null);
       else {
         let newUser = req.body;
         let result = await userApi.addUser(newUser);
-        // return next();
         res.json(result);
       }
     } catch (err) {
-      console.log(err);
+      res.status(500).send(err);
     }
   })
   .get((req, res) => {

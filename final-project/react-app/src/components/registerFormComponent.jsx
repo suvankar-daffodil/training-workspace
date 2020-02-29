@@ -7,7 +7,7 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      picture:"profile-blank.png"
+      picture: "profile-blank.png"
     };
   }
 
@@ -21,7 +21,7 @@ class Register extends React.Component {
           : alert("User already exists!! Please try again..");
       })
       .catch(error => {
-        console.log(error);
+        alert("ERROR SAVING USER!!! TRY LATER.");
       });
   };
 

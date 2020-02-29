@@ -9,7 +9,7 @@ const Footer = () => {
           Copyright © Pet-Socail 2014 All Rights Reserved
         </div>
         <div className="footer_div2">
-          <Link to="#">Privacy Policy </Link>|{" "}
+          <Link to="#">Privacy Policy </Link>
           <Link to="#"> Terms &amp; Conditions</Link>
         </div>
       </div>
