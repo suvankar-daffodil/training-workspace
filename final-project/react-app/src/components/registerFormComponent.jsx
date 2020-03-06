@@ -81,7 +81,9 @@ class Register extends React.Component {
           </ul>
           <div className="addtnal_acnt">
             I already have an account.
-            <Link to="/login">Login My Account !</Link>
+            <Link replace to="/auth/signin">
+              Login My Account !
+            </Link>
           </div>
         </div>
       </div>

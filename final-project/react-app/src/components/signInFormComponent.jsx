@@ -55,12 +55,15 @@ class SignIn extends React.Component {
               </li>
               <li>
                 <input type="submit" value="Login" />
+                <Link to="/auth/password-reset">Forgot Password</Link>
               </li>
             </form>
           </ul>
           <div className="addtnal_acnt">
             I do not have any account yet.
-            <Link to="/register">Create My Account Now !</Link>
+            <Link replace to="/auth/signup">
+              Create My Account Now !
+            </Link>
           </div>
         </div>
       </div>

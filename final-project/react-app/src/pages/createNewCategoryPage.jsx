@@ -1,15 +1,15 @@
 import React from "react";
 
-import CreateNewPost from "../components/createNewPostFormComponent";
+import NewCategoryForm from "../components/newCategoryFormComponent";
 import SidePanel from "../components/profileSidePanel";
 import ProfileMain from "../components/profileMainComponent";
 
-const CreateNewPostPage = props => {
+const CreateNewCategoryPage = props => {
   return (
     <div className="container">
       <div className="content">
         <ProfileMain>
-          <CreateNewPost {...props} />
+          <NewCategoryForm {...props} />
         </ProfileMain>
         <SidePanel {...props} />
       </div>
@@ -17,4 +17,4 @@ const CreateNewPostPage = props => {
   );
 };
 
-export default CreateNewPostPage;
+export default CreateNewCategoryPage;

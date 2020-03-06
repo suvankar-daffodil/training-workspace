@@ -14,7 +14,7 @@ const handleSubmit = event => {
   let date =
     today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear();
   let time =
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()  ;
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
   formData.set("date", date);
   formData.set("time", time);
   formData.set("userName", currentUser.firstname + " " + currentUser.lastname);
@@ -49,11 +49,11 @@ const CreateNewPost = ({ history, ...props }) => {
             <span>Tag</span>
             <select name="tag">
               <option></option>
-              <option value="Dog">Dog</option>
-              <option value="Cat">Cat</option>
-              <option value="Bird">Bird</option>
-              <option value="Rabbit">Rabbit</option>
-              <option value="Others">Others</option>
+              {currentUser.categories.map(category => (
+                <option value={category.name.slice(0, -1).toUpperCase()}>
+                  {category.name.slice(0, -1).toUpperCase()}
+                </option>
+              ))}
             </select>
           </li>
           <FormInput

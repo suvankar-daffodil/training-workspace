@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 const Post = props => {
   return (
@@ -20,47 +20,54 @@ const Post = props => {
           </div>
         </div>
         <div className="div_image">
-          <Link to={`/posts/${props.post._id}`}>
+          {props.match.path === "/" ? (
+            <Link replace to={`/posts/${props.post._id}`}>
+              <img
+                src={`http://localhost:5000/uploads/${props.post.picture}`}
+                alt="pet"
+              />
+            </Link>
+          ) : (
             <img
               src={`http://localhost:5000/uploads/${props.post.picture}`}
               alt="pet"
             />
-          </Link>
+          )}
         </div>
         <div className="div_btm">
           <div className="btm_list">
             <ul>
               <li>
-                <a href="#">
+                <Link replace to="#">
                   <span className="btn_icon">
                     <img src="/images/icon_001.png" alt="share" />
                   </span>
                   Share
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#">
+                <Link replace to="#">
                   <span className="btn_icon">
                     <img src="/images/icon_002.png" alt="share" />
                   </span>
                   Flag
-                </a>
+                </Link>
               </li>
-              <li>
-                <a href="#">
+              <li onClick={() => props.updatePostData(props.post._id)}>
+                <Link replace to="#">
                   <span className="btn_icon">
                     <img src="/images/icon_003.png" alt="share" />
                   </span>
-                  {props.post.likes} Likes
-                </a>
+                  {props.post.likes.length} Likes
+                </Link>
               </li>
               <li>
-                <a href="#">
+                <Link replace to="#">
                   <span className="btn_icon">
                     <img src="/images/icon_004.png" alt="share" />
                   </span>
-                  {props.post.comments} Comments
-                </a>
+                  {props.post.comments.length} Comments
+                </Link>
               </li>
             </ul>
           </div>
@@ -70,4 +77,4 @@ const Post = props => {
   );
 };
 
-export default Post;
+export default withRouter(Post);

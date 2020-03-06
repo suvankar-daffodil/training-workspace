@@ -11,7 +11,9 @@ const SidePanel = props => {
         <span className="btn_sep">
           <img src="/images/btn_sep.png" alt="sep" />
         </span>
-        <Link to="/createNewPost">Upload Post</Link>
+        <Link replace to="/createNewPost">
+          Upload Post
+        </Link>
       </div>
       <div className="rght_btn">
         <span className="rght_btn_icon">
@@ -20,7 +22,9 @@ const SidePanel = props => {
         <span className="btn_sep">
           <img src="/images/btn_sep.png" alt="sep" />
         </span>
-        <Link to="#">Invite Friends</Link>
+        <Link replace to="/createNewCategory">
+          Add Categories
+        </Link>
       </div>
       <div className="rght_cate">
         <div className="rght_cate_hd" id="rght_cat_bg">
@@ -28,46 +32,19 @@ const SidePanel = props => {
         </div>
         <div className="rght_list">
           <ul>
-            <li>
-              <div onClick={() => props.onTagChange("CAT")}>
-                <span className="list_icon">
-                  <img src="/images/icon_01.png" alt="up" />
-                </span>
-                CATS
-              </div>
-            </li>
-            <li>
-              <div onClick={() => props.onTagChange("DOG")}>
-                <span className="list_icon">
-                  <img src="/images/icon_02.png" alt="up" />
-                </span>
-                Dogs
-              </div>
-            </li>
-            <li>
-              <div onClick={() => props.onTagChange("BIRD")}>
-                <span className="list_icon">
-                  <img src="/images/icon_03.png" alt="up" />
-                </span>
-                Birds
-              </div>
-            </li>
-            <li>
-              <div onClick={() => props.onTagChange("RABBIT")}>
-                <span className="list_icon">
-                  <img src="/images/icon_04.png" alt="up" />
-                </span>
-                Rabbits
-              </div>
-            </li>
-            <li>
-              <div onClick={() => props.onTagChange("OTHERS")}>
-                <span className="list_icon">
-                  <img src="/images/icon_05.png" alt="up" />
-                </span>
-                Others
-              </div>
-            </li>
+            {props.currentUser.categories.map((category, index) => (
+              <li key={index}>
+                <div onClick={() => props.onTagChange(category.name)}>
+                  <span className="list_icon">
+                    <img
+                      src={`http://localhost:5000/assets/${category.picture}`}
+                      alt="up"
+                    />
+                  </span>
+                  {category.name}
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

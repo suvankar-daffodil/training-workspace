@@ -11,7 +11,7 @@ const WelcomeComponent = () => {
         going to use a passage of Lorem Ipsum, you need to be sure there isn't
         anything embarrassing hidden in the middle of text.
       </p>
-      <img src="images/img_9.png" alt="" />
+      <img src="/images/img_9.png" alt="" />
     </div>
   );
 };

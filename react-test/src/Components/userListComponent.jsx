@@ -8,7 +8,7 @@ const UserList = ({ users, ...otherProps }) => {
       <ul>
         {users.map(user => (
           <li key={user._id}>
-            <Link to={`/users/${user._id}`}>{user.firstname}</Link>
+            <Link replace to={`/users/${user._id}`}>{user.firstname}</Link>
           </li>
         ))}
       </ul>

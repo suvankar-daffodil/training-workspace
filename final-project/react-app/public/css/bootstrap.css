@@ -6616,7 +6616,7 @@ a.badge:focus {
 }
 .info_div1 {
   float: right;
-  background-image: url(../images/arw2.png);
+  /* background-image: url(../images/arw2.png); */
   width: 37%;
   color: #fff;
   margin-top: 13%;
@@ -6981,6 +6981,11 @@ a.badge:focus {
   color: #fff;
   line-height: 58px;
 }
+.rght_btn .btn_txt {
+  cursor: pointer;
+  color: #fff;
+  line-height: 58px;
+}
 .rght_btn_icon {
   width: auto;
   height: auto;
@@ -7059,6 +7064,8 @@ a.badge:focus {
   margin: 0px 10px 0px 0px;
 }
 .list_icon img {
+  height: 39px;
+  width: 39px;
   box-shadow: 1px 2px 0px #d8d8d8;
 }
 .feat_sec {
@@ -7876,9 +7883,9 @@ a.badge:focus {
 .image_sec {
   float: left;
   border: 1px solid #ffffff;
-  background-color: #ecedef;
+  /* background-color: #ecedef; */
   width: 52px;
-  padding-top: 8px;
+  /* padding-top: 8px; */
 }
 .image_sec img {
   width: 100%;

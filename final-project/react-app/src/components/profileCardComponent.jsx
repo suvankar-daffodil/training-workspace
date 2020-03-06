@@ -27,7 +27,7 @@ export default class ProfileCardComponent extends React.Component {
           <div className="timeline_div1">
             <div className="profile_pic">
               <img
-                src={`http://localhost:5000/uploads/${this.props.currentUser.picture}`}
+                src={`http://localhost:5000/assets/${this.props.currentUser.picture}`}
               />
               <div className="profile_text">
                 <span>Change Profile Pic</span>
@@ -35,7 +35,7 @@ export default class ProfileCardComponent extends React.Component {
             </div>
             <div className="profile_info">
               <div className="edit_div">
-                <Link to="#">
+                <Link replace to="#">
                   Edit <img src="images/timeline_img.png" />
                 </Link>
               </div>
@@ -68,21 +68,21 @@ export default class ProfileCardComponent extends React.Component {
           <div className="timeline_div2">
             <ul>
               <li>
-                <Link to="#" className="active">
+                <Link replace to="#" className="active">
                   Timeline
                 </Link>
               </li>
               <li>
-                <Link to="#">About </Link>
+                <Link replace to="#">About </Link>
               </li>
               <li>
-                <Link to="#">Album </Link>
+                <Link replace to="#">Album </Link>
               </li>
               <li>
-                <Link to="#"> Pets </Link>
+                <Link replace to="#"> Pets </Link>
               </li>
               <li>
-                <Link to="#">My Uploads </Link>
+                <Link replace to="#">My Uploads </Link>
               </li>
             </ul>
           </div>

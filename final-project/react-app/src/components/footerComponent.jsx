@@ -9,29 +9,29 @@ const Footer = () => {
           Copyright © Pet-Socail 2014 All Rights Reserved
         </div>
         <div className="footer_div2">
-          <Link to="#">Privacy Policy </Link>
-          <Link to="#"> Terms &amp; Conditions</Link>
+          <Link replace to="#">Privacy Policy </Link>
+          <Link replace to="#"> Terms &amp; Conditions</Link>
         </div>
       </div>
       <div className="footr_rgt">
         <ul>
           <li>
-            <Link to="#">
+            <Link replace to="#">
               <img src="/images/social_1.png" />
             </Link>
           </li>
           <li>
-            <Link to="#">
+            <Link replace to="#">
               <img src="/images/social_2.png" />
             </Link>
           </li>
           <li>
-            <Link to="#">
+            <Link replace to="#">
               <img src="/images/social_3.png" />
             </Link>
           </li>
           <li>
-            <Link to="#">
+            <Link replace to="#">
               <img src="/images/social_4.png" />
             </Link>
           </li>

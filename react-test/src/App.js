@@ -27,10 +27,10 @@ class App extends React.Component {
       <>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link replace to="/">Home</Link>
           </li>
           <li>
-            <Link to="/users">Users</Link>
+            <Link replace to="/users">Users</Link>
           </li>
         </ul>
         <Switch>

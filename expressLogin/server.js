@@ -6,8 +6,8 @@ const passport = require("passport");
 const googleStrategy = require("passport-google-oauth20");
 const cors = require("cors");
 
-const userApi = require("./api");
-const router = require("./router");
+const userApi = require("./controllers/api");
+const router = require("./routes/router");
 
 const app = express();
 mongoose.connect("mongodb://localhost/mongooseTest", {

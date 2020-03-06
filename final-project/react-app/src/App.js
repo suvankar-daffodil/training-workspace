@@ -1,20 +1,27 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import "./App.css";
+import { Switch } from "react-router-dom";
+import axios from "axios";
 
+import Main from "./components/mainComponent";
 import Header from "./components/headerComponent";
 import Footer from "./components/footerComponent";
-import ResetPasswordPage from "./pages/resetPasswordPage";
-import LoginPage from "./pages/loginPage";
-import RegisterPage from "./pages/registerPage";
-import HomePage from "./pages/homePage";
-import CreateNewPostPage from "./pages/createNewPostPage";
-import SinglePostPage from "./pages/createNewPostPage";
-
 class App extends React.Component {
-  state = {
-    currentUser: null
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentUser: {
+        _id: "",
+        picture: "",
+        firstname: "",
+        lastname: "",
+        gender: "",
+        email: "",
+        password: "",
+        categories: []
+      }
+    };
+  }
 
   toggleAuthState = currentUser => {
     currentUser
@@ -23,6 +30,15 @@ class App extends React.Component {
     currentUser
       ? this.setState({ currentUser: currentUser })
       : this.setState({ currentUser: null });
+  };
+
+  syncUserDetails = async formData => {
+    try {
+      let response = await axios.post("http://localhost:5000/login", formData);
+      this.setState({ currentUser: response.data });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   componentDidMount() {
@@ -38,67 +54,10 @@ class App extends React.Component {
           toggleAuthState={this.toggleAuthState}
         />
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={props =>
-              this.state.currentUser ? (
-                <HomePage
-                  currentUser={this.state.currentUser}
-                  onTagChange={this.onTagChange}
-                  {...props}
-                />
-              ) : (
-                <Redirect to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/login"
-            render={props =>
-              this.state.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <LoginPage {...props} toggleAuthState={this.toggleAuthState} />
-              )
-            }
-          />
-          <Route
-            path="/register"
-            render={props =>
-              this.state.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <RegisterPage {...props} />
-              )
-            }
-          />
-          <Route
-            path="/resetPassword"
-            render={props =>
-              this.state.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <ResetPasswordPage {...props} />
-              )
-            }
-          />
-          <Route
-            path="/createNewPost"
-            render={props =>
-              this.state.currentUser ? (
-                <CreateNewPostPage
-                  currentUser={this.state.currentUser}
-                  {...props}
-                />
-              ) : (
-                <Redirect to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/posts/:postId"
-            render={props => <HomePage {...props} />}
+          <Main
+            currentUser={this.state.currentUser}
+            toggleAuthState={this.toggleAuthState}
+            syncUserDetails={this.syncUserDetails}
           />
         </Switch>
         <Footer />

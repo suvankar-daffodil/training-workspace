@@ -17,7 +17,11 @@ const Header = props => {
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <Link className="brand" to="/">
+            <Link
+              replace
+              className="brand"
+              to={{ pathname: "/", state: { filterTag: "" } }}
+            >
               PPL
             </Link>
             <div className="pro_info pull-right">
@@ -33,23 +37,23 @@ const Header = props => {
                 aria-labelledby="dLabel"
               >
                 <li>
-                  <Link tabIndex="-1" to="#">
+                  <Link replace tabIndex="-1" to="#">
                     My Profile
                   </Link>
                 </li>
                 <li>
-                  <Link tabIndex="-1" to="#">
+                  <Link replace tabIndex="-1" to="#">
                     Message Box
                   </Link>
                 </li>
                 <li>
-                  <Link tabIndex="-1" to="#">
+                  <Link replace tabIndex="-1" to="#">
                     Change Language
                   </Link>
                 </li>
                 <li className="divider"></li>
                 <li>
-                  <Link tabIndex="-1" to="#">
+                  <Link replace tabIndex="-1" to="#">
                     <input type="text" placeholder="search" />
                   </Link>
                 </li>
@@ -58,19 +62,32 @@ const Header = props => {
             <div className="nav-collapse collapse">
               <ul className="nav">
                 <li className="active">
-                  <Link to="/">Home</Link>
+                  <Link
+                    replace
+                    to={{ pathname: "/", state: { filterTag: "" } }}
+                  >
+                    Home
+                  </Link>
                 </li>
                 <li className="">
-                  <Link to="">E-Coupons</Link>
+                  <Link replace to="">
+                    E-Coupons
+                  </Link>
                 </li>
                 <li className="">
-                  <Link to="">E-Brands</Link>
+                  <Link replace to="">
+                    E-Brands
+                  </Link>
                 </li>
                 <li className="">
-                  <Link to="">Resuse Market</Link>
+                  <Link replace to="">
+                    Resuse Market
+                  </Link>
                 </li>
                 <li className="">
-                  <Link to="">Lost and Found</Link>
+                  <Link replace to="">
+                    Lost and Found
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -80,28 +97,40 @@ const Header = props => {
       <div className="header">
         <div className="header_lft">
           <div className="logo">
-            <Link to="/">
+            <Link replace to={{ pathname: "/", state: { filterTag: "" } }}>
               <img src="/images/logo.png" />
             </Link>
           </div>
           <div className="navigatn">
             <ul>
               <li>
-                <Link to="/" className="active">
+                <Link
+                  replace
+                  className="active"
+                  to={{ pathname: "/", state: { filterTag: "" } }}
+                >
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="#"> E-Coupons </Link>
+                <Link replace to="#">
+                  {" "}
+                  E-Coupons{" "}
+                </Link>
               </li>
               <li>
-                <Link to="#">E-Brands </Link>
+                <Link replace to="#">
+                  E-Brands{" "}
+                </Link>
               </li>
               <li>
-                <Link to="#"> Resuse Market </Link>
+                <Link replace to="#">
+                  {" "}
+                  Resuse Market{" "}
+                </Link>
               </li>
               {/* <li>
-                <Link to="#"> Lost and Found</Link>
+                <Link replace to="#"> Lost and Found</Link>
               </li> */}
               {props.currentUser ? (
                 <li>
@@ -120,17 +149,24 @@ const Header = props => {
             <img src="/images/flag.png" />
           </div>
           <input type="text" placeholder="Search" className="txt_box" />
-          <div className="msg_box">
-            <Link to="#">
-              <span className="msg_count">100</span>
-            </Link>
-          </div>
-          <div className="info_div">
-            <div className="image_div">
-              <img src="/images/pic.png" />
-            </div>
-            <div className="info_div1">Me</div>
-          </div>
+
+          {props.currentUser ? (
+            <>
+              <div className="msg_box">
+                <Link replace to="#">
+                  <span className="msg_count">100</span>
+                </Link>
+              </div>
+              <div className="info_div">
+                <div className="image_div">
+                  <img src="/images/pic.png" />
+                </div>
+                <div className="info_div1">Me</div>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

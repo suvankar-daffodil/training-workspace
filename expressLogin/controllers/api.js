@@ -1,5 +1,5 @@
-const userModel = require("./userSchema");
-const postModel = require("./postSchema");
+const userModel = require("../models/userSchema");
+const postModel = require("../models/postSchema");
 
 module.exports = {
   getAllPosts: () =>
@@ -55,5 +55,44 @@ module.exports = {
         if (err) reject(err);
         else resolve(data);
       });
+    }),
+
+  addCategory: (userId, newCategory) =>
+    new Promise((resolve, reject) => {
+      userModel.findByIdAndUpdate(
+        userId,
+        { $push: { categories: { $each: newCategory, $position: 0 } } },
+        { returnOriginal: false, useFindAndModify: false },
+        (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        }
+      );
+    }),
+
+  updateLike: (postId, userId) =>
+    new Promise((resolve, reject) => {
+      postModel.findByIdAndUpdate(
+        postId,
+        { $addToSet: { likes: userId } },
+        { returnOriginal: false, useFindAndModify: false },
+        (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        }
+      );
+    }),
+
+  updateComment: (postId, newData) =>
+    new Promise((resolve, reject) => {
+      postModel.findByIdAndUpdate(
+        postId,
+        { $push: { comments: newData } },
+        { returnOriginal: false, useFindAndModify: false },
+        (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        }
+      );
     })
 };

@@ -2,11 +2,12 @@ const express = require("express");
 const multer = require("multer");
 const passport = require("passport");
 
-const userApi = require("./api");
+const userApi = require("../controllers/api");
 
 const router = express.Router();
 
 const upload = multer({ dest: "./public/uploads/" });
+const upload2 = multer({ dest: "./public/assets/" });
 
 router.get("/users", async (req, res) => {
   try {
@@ -38,7 +39,7 @@ router
 
 router
   .route("/login")
-  .post(upload.single("image"), async (req, res, next) => {
+  .post(async (req, res, next) => {
     try {
       let user = await userApi.getUserByEmail(req.body.email);
       if (user) {
@@ -73,6 +74,37 @@ router
       console.log(err);
     }
   });
+
+router.route("/posts/:postId").put(async (req, res) => {
+  try {
+    if (req.body.body) {
+      console.log(req.body);
+      let comment = {
+        name: req.body.user.firstname + " " + req.body.user.lastname,
+        picture: req.body.user.picture,
+        body: req.body.body
+      };
+      let result = await userApi.updateComment(req.params.postId, comment);
+      res.json(result);
+    } else {
+      let result = await userApi.updateLike(req.params.postId, req.body.user);
+      res.json(result);
+    }
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+router.route("/categories").put(upload2.single("image"), async (req, res) => {
+  try {
+    let data = [{ name: req.body.category, picture: req.file.filename }];
+    let result = await userApi.addCategory(req.body.user, data);
+    res.json(result);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err);
+  }
+});
 
 router.get(
   "/auth/google",
