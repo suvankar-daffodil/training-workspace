@@ -1,69 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Switch } from "react-router-dom";
 import axios from "axios";
 
 import Main from "./components/mainComponent";
 import Header from "./components/headerComponent";
 import Footer from "./components/footerComponent";
-class App extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      currentUser: {
-        _id: "",
-        picture: "",
-        firstname: "",
-        lastname: "",
-        gender: "",
-        email: "",
-        password: "",
-        categories: []
-      }
-    };
-  }
+const App = props => {
+  const [currentUser, setCurrentUser] = useState();
 
-  toggleAuthState = currentUser => {
+  const toggleAuthState = currentUser => {
     currentUser
       ? localStorage.setItem("currentUser", JSON.stringify(currentUser))
       : localStorage.removeItem("currentUser");
-    currentUser
-      ? this.setState({ currentUser: currentUser })
-      : this.setState({ currentUser: null });
+    currentUser ? setCurrentUser(currentUser) : setCurrentUser(null);
   };
 
-  syncUserDetails = async formData => {
+  const syncUserDetails = async formData => {
     try {
       let response = await axios.post("http://localhost:5000/login", formData);
-      this.setState({ currentUser: response.data });
+      setCurrentUser(response.data);
     } catch (err) {
       console.log(err);
     }
   };
 
-  componentDidMount() {
+  useEffect(() => {
     let value = JSON.parse(localStorage.getItem("currentUser"));
-    this.setState({ currentUser: value });
-  }
+    setCurrentUser(value);
+  }, []);
 
-  render() {
-    return (
-      <>
-        <Header
-          currentUser={this.state.currentUser}
-          toggleAuthState={this.toggleAuthState}
+  return (
+    <>
+      <Header currentUser={currentUser} toggleAuthState={toggleAuthState} />
+      <Switch>
+        <Main
+          currentUser={currentUser}
+          toggleAuthState={toggleAuthState}
+          syncUserDetails={syncUserDetails}
         />
-        <Switch>
-          <Main
-            currentUser={this.state.currentUser}
-            toggleAuthState={this.toggleAuthState}
-            syncUserDetails={this.syncUserDetails}
-          />
-        </Switch>
-        <Footer />
-      </>
-    );
-  }
-}
+      </Switch>
+      <Footer />
+    </>
+  );
+};
 
 export default App;

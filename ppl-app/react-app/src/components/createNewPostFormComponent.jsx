@@ -49,7 +49,7 @@ const CreateNewPost = ({ history, ...props }) => {
             <span>Tag</span>
             <select name="tag">
               <option></option>
-              {currentUser.categories.map(category => (
+              {currentUser?.categories?.map(category => (
                 <option value={category.name.slice(0, -1).toUpperCase()}>
                   {category.name.slice(0, -1).toUpperCase()}
                 </option>

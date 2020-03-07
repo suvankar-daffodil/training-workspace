@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import SignupForm from "./Components/SignupFormComponent/signupFormComponent";
+// import SignupForm from "./Components/SignupFormComponent/signupFormComponent";
 import LoginForm from "./Components/LoginFormComponent/loginFormComponent";
 
 import Users from "./Components/usersComponent";
@@ -24,8 +24,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <>
-        <ul>
+      <div className="parent">
+        <LoginForm />
+        {/* <ul>
           <li>
             <Link replace to="/">Home</Link>
           </li>
@@ -39,8 +40,8 @@ class App extends React.Component {
             path="/users"
             render={props => <Users users={this.state.users} {...props} />}
           />
-        </Switch>
-      </>
+        </Switch> */}
+      </div>
     );
   }
 }

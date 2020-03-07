@@ -32,7 +32,7 @@ const SidePanel = props => {
         </div>
         <div className="rght_list">
           <ul>
-            {props.currentUser.categories.map((category, index) => (
+            {props.currentUser?.categories?.map((category, index) => (
               <li key={index}>
                 <div onClick={() => props.onTagChange(category.name)}>
                   <span className="list_icon">

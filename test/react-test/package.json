@@ -1,12 +1,14 @@
 {
   "name": "react-test",
   "version": "0.1.0",
+  "main": "public/Main.js",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
+    "electron": "^8.1.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
@@ -16,7 +18,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron-start": "electron ."
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -33,4 +36,6 @@
       "last 1 safari version"
     ]
   }
+  // ,
+  // "proxy": "https://fsvpn.whitelabel.com.br/"
 }
