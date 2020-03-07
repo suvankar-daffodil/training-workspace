@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 const Header = props => {
   return (
@@ -104,29 +104,31 @@ const Header = props => {
           <div className="navigatn">
             <ul>
               <li>
-                <Link
-                  replace
+                <span
                   className="active"
-                  to={{ pathname: "/", state: { filterTag: "" } }}
+                  onClick={() =>
+                    props.history.push({
+                      pathname: "/",
+                      state: { fromHeader: true }
+                    })
+                  }
                 >
                   Home
+                </span>
+              </li>
+              <li>
+                <Link replace to="#">
+                  E-Coupons
                 </Link>
               </li>
               <li>
                 <Link replace to="#">
-                  {" "}
-                  E-Coupons{" "}
+                  E-Brands
                 </Link>
               </li>
               <li>
                 <Link replace to="#">
-                  E-Brands{" "}
-                </Link>
-              </li>
-              <li>
-                <Link replace to="#">
-                  {" "}
-                  Resuse Market{" "}
+                  Resuse Market
                 </Link>
               </li>
               {/* <li>
@@ -173,4 +175,4 @@ const Header = props => {
   );
 };
 
-export default Header;
+export default withRouter(Header);

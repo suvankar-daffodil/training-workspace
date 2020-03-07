@@ -13,7 +13,7 @@ export default class HomePage extends React.Component {
 
     this.state = {
       posts: [],
-      filterTag: ""
+      selectedCategory: ""
     };
   }
 
@@ -41,28 +41,17 @@ export default class HomePage extends React.Component {
       .catch(err => console.log(err));
   };
 
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   console.dir(nextProps.location.state);
-  //   if (nextProps.location.state.filterTag === "") {
-  //     console.log("reset");
-  //     nextProps.location.state.filterTag = null;
-  //     return { filterTag: "" };
-  //   } else {
-  //     console.log("success");
-  //     return null;
-  //   }
-  // }
-
   onTagChange = tag => {
-    this.setState({ filterTag: tag });
+    this.setState({ selectedCategory: tag });
   };
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log(
-  //     JSON.stringify(nextProps.location.state) + "," + nextState.filterTag
-  //   );
-  //   return true;
-  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.location.state.fromHeader) {
+      nextProps.location.state.fromHeader = false;
+      return { selectedCategory: "" };
+    }
+    return null;
+  }
 
   render() {
     if (this.props.match.path === "/posts/:postId")
@@ -82,7 +71,7 @@ export default class HomePage extends React.Component {
               <Timeline
                 updatePostData={this.updatePostData}
                 posts={this.state.posts}
-                filterTag={this.state.filterTag}
+                selectedCategory={this.state.selectedCategory}
               />
             </ProfileMain>
             <SidePanel {...this.props} onTagChange={this.onTagChange} />
