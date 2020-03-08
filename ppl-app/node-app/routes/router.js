@@ -78,7 +78,6 @@ router
 router.route("/posts/:postId").put(async (req, res) => {
   try {
     if (req.body.body) {
-      console.log(req.body);
       let comment = {
         name: req.body.user.firstname + " " + req.body.user.lastname,
         picture: req.body.user.picture,

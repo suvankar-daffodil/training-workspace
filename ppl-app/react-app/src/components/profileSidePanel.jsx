@@ -34,7 +34,7 @@ const SidePanel = props => {
           <ul>
             {props.currentUser?.categories?.map((category, index) => (
               <li key={index}>
-                <div onClick={() => props.onTagChange(category.name)}>
+                <div onClick={() => props.onSelectedCategoryChange(category.name)}>
                   <span className="list_icon">
                     <img
                       src={`http://localhost:5000/assets/${category.picture}`}

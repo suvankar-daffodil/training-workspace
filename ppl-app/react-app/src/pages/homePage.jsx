@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Axios from "axios";
 
 import ProfileMain from "../components/profileMainComponent";
@@ -7,77 +7,67 @@ import SidePanel from "../components/profileSidePanel";
 import ProfileCard from "../components/profileCardComponent";
 import SinglePostPage from "./singlePostPage";
 
-export default class HomePage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      posts: [],
-      selectedCategory: ""
-    };
+const fetchPosts = async () => {
+  try {
+    let response = await Axios.get("http://localhost:5000/posts");
+    return response.data.reverse();
+  } catch (err) {
+    console.log(err);
   }
+};
 
-  componentDidMount = () => {
-    this.fetchPosts();
-  };
+const HomePage = props => {
+  const [posts, setPosts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  fetchPosts = async () => {
-    try {
-      let response = await Axios.get("http://localhost:5000/posts");
-      this.setState({ posts: response.data.reverse() });
-    } catch (err) {
-      console.log(err);
+  useEffect(() => {
+    fetchPosts().then(response => {
+      setPosts(response);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (props.location?.state?.fromHeader) {
+      props.location.state.fromHeader = false;
+      setSelectedCategory("");
     }
-  };
+  }, [props.location?.state?.fromHeader]);
 
-  updatePostData = (postId, commentBody) => {
+  const updatePostData = useCallback((postId, commentBody) => {
     Axios.put(`http://localhost:5000/posts/${postId}`, {
-      user: this.props.currentUser,
+      user: props.currentUser,
       body: commentBody
     })
       .then(response => {
-        this.fetchPosts();
+        fetchPosts().then(result => setPosts(result));
       })
       .catch(err => console.log(err));
-  };
+  }, []);
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.location?.state?.fromHeader) {
-      nextProps.location.state.fromHeader = false;
-      return { filterTag: "" };
-    } else {
-      return null;
-    }
-  }
+  const onSelectedCategoryChange = useCallback(tag => {
+    setSelectedCategory(tag);
+  }, []);
 
-  onTagChange = tag => {
-    this.setState({ selectedCategory: tag });
-  };
-
-  render() {
-    if (this.props.match.path === "/posts/:postId")
-      return (
-        <SinglePostPage
-          {...this.props}
-          posts={this.state.posts}
-          updatePostData={this.updatePostData}
+  return props.match.path === "/posts/:postId" ? (
+    <SinglePostPage {...props} posts={posts} updatePostData={updatePostData} />
+  ) : (
+    <div className="container">
+      <div className="content">
+        <ProfileMain>
+          <ProfileCard currentUser={props.currentUser} />
+          <Timeline
+            updatePostData={updatePostData}
+            posts={posts}
+            selectedCategory={selectedCategory}
+          />
+        </ProfileMain>
+        <SidePanel
+          {...props}
+          onSelectedCategoryChange={onSelectedCategoryChange}
         />
-      );
-    else
-      return (
-        <div className="container">
-          <div className="content">
-            <ProfileMain>
-              <ProfileCard currentUser={this.props.currentUser} />
-              <Timeline
-                updatePostData={this.updatePostData}
-                posts={this.state.posts}
-                selectedCategory={this.state.selectedCategory}
-              />
-            </ProfileMain>
-            <SidePanel {...this.props} onTagChange={this.onTagChange} />
-          </div>
-        </div>
-      );
-  }
-}
+      </div>
+    </div>
+  );
+};
+
+export default HomePage;

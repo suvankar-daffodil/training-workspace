@@ -1,65 +1,73 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import FormInput from "./formInputComponent";
 import Axios from "axios";
 
 const Register = props => {
-  const [picture, setPicture] = useState("profile-blank.png");
+  const [formData, setFormData] = useState({ picture: "profile-blank.png" });
 
-  handleSubmit = event => {
-    event.preventDefault();
-    let formData = this.state;
-    Axios.post("http://localhost:5000/signup", formData)
-      .then(response => {
-        response.data
-          ? alert("Signup Successfull!! Login to continue!!")
-          : alert("User already exists!! Please try again..");
-      })
-      .catch(error => {
-        alert("ERROR SAVING USER!!! TRY LATER.");
+  const handleSubmit = useCallback(
+    event => {
+      event.preventDefault();
+      Axios.post("http://localhost:5000/signup", formData)
+        .then(response => {
+          response.data
+            ? alert("Signup Successfull!! Login to continue!!")
+            : alert("User already exists!! Please try again..");
+        })
+        .catch(error => {
+          alert("ERROR SAVING USER!!! TRY LATER.");
+        });
+    },
+    [formData]
+  );
+
+  const handleChange = useCallback(
+    event => {
+      setFormData({
+        ...formData,
+        [event.target.name]: event.target.value
       });
-  };
-
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+    },
+    [formData]
+  );
 
   return (
     <div className="content_rgt">
       <div className="register_sec">
         <h1>Create An Account</h1>
         <ul>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <FormInput
-              changeHandler={this.handleChange}
+              changeHandler={handleChange}
               name="firstname"
               label="Firstname"
               type="text"
               placeholder="Enter your firstname"
             />
             <FormInput
-              changeHandler={this.handleChange}
+              changeHandler={handleChange}
               name="lastname"
               label="Lastname"
               type="text"
               placeholder="Enter your lastname"
             />
             <FormInput
-              changeHandler={this.handleChange}
+              changeHandler={handleChange}
               name="gender"
               label="Gender"
               type="text"
               placeholder="Enter your gender"
             />
             <FormInput
-              changeHandler={this.handleChange}
+              changeHandler={handleChange}
               name="email"
               label="Email"
               type="text"
               placeholder="Enter your email"
             />
             <FormInput
-              changeHandler={this.handleChange}
+              changeHandler={handleChange}
               name="password"
               label="Password"
               type="password"
