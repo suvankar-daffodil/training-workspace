@@ -27,22 +27,25 @@ const HomePage = props => {
   }, []);
 
   useEffect(() => {
-    if (props.location?.state?.fromHeader) {
+    if (props.location.state?.fromHeader) {
       props.location.state.fromHeader = false;
       setSelectedCategory("");
     }
-  }, [props.location?.state?.fromHeader]);
+  }, [props.location.state?.fromHeader]);
 
-  const updatePostData = useCallback((postId, commentBody) => {
-    Axios.put(`http://localhost:5000/posts/${postId}`, {
-      user: props.currentUser,
-      body: commentBody
-    })
-      .then(response => {
-        fetchPosts().then(result => setPosts(result));
+  const updatePostData = useCallback(
+    (postId, commentBody) => {
+      Axios.put(`http://localhost:5000/posts/${postId}`, {
+        user: props.currentUser,
+        body: commentBody
       })
-      .catch(err => console.log(err));
-  }, []);
+        .then(response => {
+          fetchPosts().then(result => setPosts(result));
+        })
+        .catch(err => console.log(err));
+    },
+    [props.currentUser]
+  );
 
   const onSelectedCategoryChange = useCallback(tag => {
     setSelectedCategory(tag);

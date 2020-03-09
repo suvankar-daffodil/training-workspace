@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import FormInput from "../components/formInputComponent";
+
 const SidePanel = props => {
   return (
     <div className="content_rgt">
-      <div className="rght_btn">
+      <div className="rght_btn1">
         <span className="rght_btn_icon">
           <img src="/images/btn_iconb.png" alt="up" />
         </span>
@@ -15,7 +17,39 @@ const SidePanel = props => {
           Upload Post
         </Link>
       </div>
-      <div className="rght_btn">
+      <div className="drop-menu1">
+        <h2>New Post</h2>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            console.log("submitted");
+          }}
+        >
+          <FormInput
+            name="title"
+            label="Title"
+            type="text"
+            placeholder="Enter title for your post"
+          />
+          <span>Tag</span>
+          <select name="tag">
+            <option></option>
+            {props.currentUser?.categories?.map(category => (
+              <option value={category.name.slice(0, -1).toUpperCase()}>
+                {category.name.slice(0, -1).toUpperCase()}
+              </option>
+            ))}
+          </select>
+          <FormInput
+            name="image"
+            label="Image"
+            type="file"
+            placeholder="Upload picture"
+          />
+          <FormInput type="submit" value="Upload Post" />
+        </form>
+      </div>
+      <div className="rght_btn2">
         <span className="rght_btn_icon">
           <img src="/images/btn_icona.png" alt="up" />
         </span>
@@ -26,6 +60,30 @@ const SidePanel = props => {
           Add Categories
         </Link>
       </div>
+      <div className="drop-menu2">
+        <h2>New Category</h2>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            console.log("submitted");
+          }}
+        >
+          <FormInput
+            name="category"
+            label="Category"
+            type="text"
+            placeholder="Enter title for your new category"
+          />
+          <FormInput
+            className="custom-file-upload"
+            name="image"
+            label="Thumbnail"
+            type="file"
+            placeholder="Upload picture"
+          />
+          <FormInput type="submit" value="Submit" />
+        </form>
+      </div>
       <div className="rght_cate">
         <div className="rght_cate_hd" id="rght_cat_bg">
           Categories
@@ -34,7 +92,9 @@ const SidePanel = props => {
           <ul>
             {props.currentUser?.categories?.map((category, index) => (
               <li key={index}>
-                <div onClick={() => props.onSelectedCategoryChange(category.name)}>
+                <div
+                  onClick={() => props.onSelectedCategoryChange(category.name)}
+                >
                   <span className="list_icon">
                     <img
                       src={`http://localhost:5000/assets/${category.picture}`}

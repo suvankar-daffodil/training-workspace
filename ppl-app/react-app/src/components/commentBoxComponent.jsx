@@ -1,7 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import Comment from "./commentComponent";
-import FormInput from "./formInputComponent";
 
 const CommentBox = props => {
   return (
@@ -38,7 +38,7 @@ const CommentBox = props => {
       </div>
       {props.post.comments.length > 1 ? (
         <div className="view_div">
-          <a href="#">View more</a>
+          <Link href="#">View more</Link>
         </div>
       ) : (
         <></>

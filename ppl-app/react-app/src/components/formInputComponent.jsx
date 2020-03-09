@@ -1,10 +1,10 @@
 import React from "react";
 
-const FormInput = ({ changeHandler, label, ...otherProps }) => {
+const FormInput = ({ changeHandler, label, className, ...otherProps }) => {
   return (
     <li>
-      <span>{label}</span>
-      <input onChange={changeHandler} {...otherProps} />
+      <label className={className} for={label}><span>{label}</span></label>
+      <input id={label} onChange={changeHandler} {...otherProps} />
     </li>
   );
 };
