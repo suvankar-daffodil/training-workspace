@@ -9,17 +9,13 @@ import Footer from "./components/footerComponent";
 import { UserActions } from "./redux/user/user-actions";
 
 const App = props => {
-  // const [currentUser, setCurrentUser] = useState();
 
-  const toggleAuthState = useCallback(
-    currentUser => {
-      currentUser
-        ? localStorage.setItem("currentUser", JSON.stringify(currentUser))
-        : localStorage.removeItem("currentUser");
-      currentUser ? setCurrentUser(currentUser) : setCurrentUser(null);
-    },
-    [currentUser]
-  );
+  const { currentUser, setCurrentUser } = props
+
+  useEffect(() => {
+    let value = JSON.parse(localStorage.getItem("currentUser"));
+    setCurrentUser(value);
+  }, []);
 
   const syncUserDetails = useCallback(async formData => {
     try {
@@ -30,18 +26,12 @@ const App = props => {
     }
   }, []);
 
-  useEffect(() => {
-    let value = JSON.parse(localStorage.getItem("currentUser"));
-    setCurrentUser(value);
-  }, []);
-
   return (
     <>
-      <Header currentUser={currentUser} toggleAuthState={toggleAuthState} />
+      <Header />
       <Switch>
         <Main
           currentUser={currentUser}
-          toggleAuthState={toggleAuthState}
           syncUserDetails={syncUserDetails}
         />
       </Switch>

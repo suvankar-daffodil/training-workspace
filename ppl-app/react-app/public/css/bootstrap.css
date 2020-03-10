@@ -7132,6 +7132,17 @@ a.badge:focus {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f58c20', endColorstr='#f1680e',GradientType=0 ); /* IE6-8 */
 }
 
+.drop-menu1 select {
+  width: 100%;
+  height: 36px;
+  padding: 0px;
+  text-indent: 6px;
+  font-style: italic;
+  color: #a0a0a0;
+  font-size: 12px;
+  border: 1px solid #e0dbdb;
+}
+
 .drop-menu1 input[type="text"] {
   -webkit-font-smoothing: antialiased;
   list-style: none;
@@ -7181,17 +7192,6 @@ a.badge:focus {
   font-family: Helvetica;
   color: #f47b13;
   text-shadow: 1px 1px 1px #fff;
-}
-
-.drop-menu2 select {
-  width: 100%;
-  height: 36px;
-  padding: 0px;
-  text-indent: 6px;
-  font-style: italic;
-  color: #a0a0a0;
-  font-size: 12px;
-  border: 1px solid #e0dbdb;
 }
 
 .drop-menu2 input[type="submit"] {

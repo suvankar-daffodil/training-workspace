@@ -1,23 +1,30 @@
 import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import FormInput from "./formInputComponent";
 import Axios from "axios";
+import { connect } from "react-redux";
+
+import { UserActions } from "../redux/user/user-actions";
+import FormInput from "./formInputComponent";
 
 const SignIn = props => {
+  const { setCurrentUser } = props;
   const [formData, setFormData] = useState({});
 
   const handleSubmit = useCallback(
-    event => {
+    async event => {
       event.preventDefault();
-      Axios.post("http://localhost:5000/login", formData)
-        .then(response => {
-          response.data
-            ? props.toggleAuthState(response.data)
-            : alert("User or password incorrect!!");
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      try {
+        let response = await Axios.post(
+          "http://localhost:5000/login",
+          formData
+        );
+        if (response.data) {
+          localStorage.setItem("currentUser", JSON.stringify(response.data));
+          setCurrentUser(response.data);
+        } else alert("User or password incorrect!!");
+      } catch (err) {
+        console.log(err);
+      }
     },
     [formData]
   );
@@ -70,4 +77,12 @@ const SignIn = props => {
   );
 };
 
-export default SignIn;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user =>
+    dispatch({
+      type: UserActions.SET_CURRENT_USER,
+      payload: user
+    })
+});
+
+export default connect(null, mapDispatchToProps)(SignIn);

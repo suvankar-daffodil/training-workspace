@@ -94,7 +94,7 @@ router.route("/posts/:postId").put(async (req, res) => {
   }
 });
 
-router.route("/categories").put(upload2.single("image"), async (req, res) => {
+router.route("/categories").post(upload2.single("image"), async (req, res) => {
   try {
     let data = [{ name: req.body.category, picture: req.file.filename }];
     let result = await userApi.addCategory(req.body.user, data);
@@ -120,78 +120,6 @@ router.get(
 
 function playGame(req, res) {
   return res.sendFile(__dirname + "/public/game/snakesAndLadders.html");
-}
-
-function profilePage(req, res) {
-  const markup = `<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <style>
-      * {
-        padding: 0px;
-        margin: 0px;
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border-radius: 10px;
-        height: 80%;
-        width: 50%;
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-      }
-
-      .displayPicture {
-        margin: 10%;
-        height: 50%;
-        width: 50%;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1 class="welcomeNote">$welcomeNote$</h1>
-      <img class="displayPicture" src="$displayPicture$"/>
-    </div>
-  </body>
-</html>`;
-
-  let user = req.user;
-  let resultMarkup;
-  if (user.googleId) {
-    resultMarkup = markup.replace(
-      "$welcomeNote$",
-      `Welcome ${user.name.toUpperCase()}`
-    );
-    resultMarkup = resultMarkup.replace("$displayPicture$", `${user.picture}`);
-  } else {
-    user = resultMarkup = markup.replace(
-      "$welcomeNote$",
-      `Welcome ${user.name.toUpperCase()}`
-    );
-    resultMarkup = resultMarkup.replace(
-      "$displayPicture$",
-      `/uploads/${user.picture}`
-    );
-  }
-  return res.end(resultMarkup);
 }
 
 module.exports = router;

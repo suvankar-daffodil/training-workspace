@@ -1,7 +1,11 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { UserActions } from "../redux/user/user-actions";
 
 const Header = props => {
+  const { currentUser, setCurrentUser } = props;
+
   return (
     <div>
       <div className="navbar navbar-inverse navbar-fixed-top">
@@ -151,7 +155,12 @@ const Header = props => {
               </li> */}
               {props.currentUser ? (
                 <li>
-                  <span onClick={() => props.toggleAuthState(null)}>
+                  <span
+                    onClick={() => {
+                      localStorage.removeItem("currentUser");
+                      setCurrentUser(null);
+                    }}
+                  >
                     Signout
                   </span>
                 </li>
@@ -190,4 +199,16 @@ const Header = props => {
   );
 };
 
-export default withRouter(Header);
+const mapStateToProps = ({ currentUser }) => ({
+  currentUser: currentUser.currentUser
+});
+
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user =>
+    dispatch({
+      type: UserActions.SET_CURRENT_USER,
+      payload: user
+    })
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
