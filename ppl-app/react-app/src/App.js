@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import { Switch } from "react-router-dom";
 import axios from "axios";
 
+import API_REQUESTS from "./API_REQUESTS";
 import Main from "./components/mainComponent";
 import Header from "./components/headerComponent";
 import Footer from "./components/footerComponent";
 import { UserActions } from "./redux/user/user-actions";
 
 const App = props => {
-
-  const { currentUser, setCurrentUser } = props
+  const { currentUser, setCurrentUser } = props;
 
   useEffect(() => {
     let value = JSON.parse(localStorage.getItem("currentUser"));
@@ -30,10 +30,7 @@ const App = props => {
     <>
       <Header />
       <Switch>
-        <Main
-          currentUser={currentUser}
-          syncUserDetails={syncUserDetails}
-        />
+        <Main currentUser={currentUser} syncUserDetails={syncUserDetails} />
       </Switch>
       <Footer />
     </>

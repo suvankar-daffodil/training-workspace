@@ -1,33 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 
 import "./loginFormComponentStyle.css";
-
-const makeApiCall = formData => {
-  let myHeaders = new Headers();
-  myHeaders.append("Accept", "application/json");
-  myHeaders.append("DeviceId", "TestCompressUserDevice");
-  myHeaders.append("OperatingSystem", "Android");
-  myHeaders.append("OperatingSystemVersion", "v-3.2");
-  myHeaders.append("DeviceName", "Samsung");
-  myHeaders.append("protocol", "ipsec");
-  myHeaders.append("ApiVersion", "v2");
-  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-  let urlencoded = new URLSearchParams();
-  urlencoded.append("extref", "TestCompress");
-
-  let requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: urlencoded,
-    redirect: "follow"
-  };
-
-  fetch("https://fsvpn.whitelabel.com.br/api/user/login", requestOptions)
-    .then(response => response.text())
-    .then(result => alert(result))
-    .catch(error => alert(error));
-};
 
 const LoginForm = props => {
   const [formData, setFormData] = useState({});
@@ -80,6 +53,36 @@ const LoginForm = props => {
       </div>
     </form>
   );
+};
+
+const makeApiCall = formData => {
+  // let proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
+  let myHeaders = new Headers();
+  myHeaders.append("Accept", "application/json");
+  myHeaders.append("DeviceId", "TestCompressUserDevice");
+  myHeaders.append("OperatingSystem", "Android");
+  myHeaders.append("OperatingSystemVersion", "v-3.2");
+  myHeaders.append("DeviceName", "Samsung");
+  myHeaders.append("protocol", "ipsec");
+  myHeaders.append("ApiVersion", "v2");
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+  let urlencoded = new URLSearchParams();
+  urlencoded.append("extref", "TestCompress");
+
+  let requestOptions = {
+    method: "POST",
+    // mode: "no-cors",
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: "follow"
+  };
+
+  fetch("https://fsvpn.whitelabel.com.br/api/user/login", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log("error", error));
 };
 
 export default LoginForm;

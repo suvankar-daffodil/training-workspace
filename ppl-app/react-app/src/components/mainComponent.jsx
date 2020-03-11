@@ -5,6 +5,7 @@ import CustomAccessRoute from "./route-components/customAccessRoute";
 
 import HomePage from "../pages/homePage";
 import AuthPage from "../pages/authPage";
+import SinglePostPage from "../pages/singlePostPage";
 
 const Main = props => {
   return (
@@ -24,7 +25,7 @@ const Main = props => {
 
       <PrivateRoute
         path="/posts/:postId"
-        component={HomePage}
+        component={SinglePostPage}
         currentUser={props.currentUser}
       />
     </>

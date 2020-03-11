@@ -1,5 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 
+import { PostActions } from "../redux/posts/post-actions";
 import Post from "./postComponent";
 
 const getFilteredPosts = (posts, selectedCategory) =>
@@ -18,4 +20,12 @@ const Timeline = props => {
   ));
 };
 
-export default Timeline;
+const mapStateToProps = ({ posts }) => ({
+  posts: posts.posts
+});
+
+const mapDispatchToProps = dispatch => ({
+  setPosts: posts => dispatch({ type: PostActions.SET_POSTS, payload: posts })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timeline);

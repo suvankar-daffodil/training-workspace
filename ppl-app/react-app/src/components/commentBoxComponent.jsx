@@ -1,9 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Axios from "axios";
 
 import Comment from "./commentComponent";
 
 const CommentBox = props => {
+  const updatePostData = (postId, commentBody) => {
+    Axios.put(`http://localhost:5000/posts/${postId}`, {
+      user: props.currentUser,
+      body: commentBody
+    })
+      .then(response => {
+        // fetchPosts().then(result => setPosts(result));
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <>
       <div className="contnt_3">
@@ -14,7 +26,7 @@ const CommentBox = props => {
                 onSubmit={e => {
                   e.preventDefault();
                   let body = new FormData(e.target).get("body");
-                  props.updatePostData(props.post._id, body);
+                  updatePostData(props.post._id, body);
                 }}
               >
                 <input

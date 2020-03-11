@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Axios from "axios";
 import $ from "jquery";
+import { connect } from "react-redux";
 
-import ProfileMain from "../components/profileMainComponent";
+import { PostActions } from "../redux/posts/post-actions";
 import Timeline from "../components/timelineComponent";
 import SidePanel from "../components/profileSidePanel";
 import ProfileCard from "../components/profileCardComponent";
-import SinglePostPage from "./singlePostPage";
 
 const fetchPosts = async () => {
   try {
@@ -18,72 +18,8 @@ const fetchPosts = async () => {
 };
 
 const HomePage = props => {
-  const { currentUser } = props;
-  const [posts, setPosts] = useState([]);
+  const { currentUser, setPosts } = props;
   const [selectedCategory, setSelectedCategory] = useState("");
-
-  const handleNewCategoryFormSubmit = useCallback(event => {
-    event.preventDefault();
-    let formData = new FormData(event.target);
-    formData.set("user", currentUser._id);
-    Axios.post("http://localhost:5000/categories", formData)
-      .then(response => {
-        response.data
-          ? alert("New category added successfully!!!")
-          : alert("Failed. Try again!!");
-        props.syncUserDetails(currentUser);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
-
-  const handleNewPostFormSubmit = useCallback(event => {
-    event.preventDefault();
-    let formData = new FormData(event.target);
-    let today = new Date();
-    let date =
-      today.getDate() +
-      "." +
-      (today.getMonth() + 1) +
-      "." +
-      today.getFullYear();
-    let time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    formData.set("date", date);
-    formData.set("time", time);
-    formData.set(
-      "userName",
-      currentUser.firstname + " " + currentUser.lastname
-    );
-    formData.set("userId", currentUser._id);
-    Axios.post("http://localhost:5000/posts", formData)
-      .then(response => {
-        response.data
-          ? alert("Upload Successfull!!")
-          : alert("Upload failed. Try again!!");
-        fetchPosts().then(response => {
-          setPosts(response);
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
-
-  const updatePostData = useCallback(
-    (postId, commentBody) => {
-      Axios.put(`http://localhost:5000/posts/${postId}`, {
-        user: currentUser,
-        body: commentBody
-      })
-        .then(response => {
-          fetchPosts().then(result => setPosts(result));
-        })
-        .catch(err => console.log(err));
-    },
-    [currentUser]
-  );
 
   const onSelectedCategoryChange = useCallback(tag => {
     setSelectedCategory(tag);
@@ -126,28 +62,29 @@ const HomePage = props => {
     }
   }, [props.location.state?.fromHeader]);
 
-  return props.match.path === "/posts/:postId" ? (
-    <SinglePostPage {...props} posts={posts} updatePostData={updatePostData} />
-  ) : (
+  return (
     <div className="container">
       <div className="content">
-        <ProfileMain>
+        <div className="content_lft">
           <ProfileCard currentUser={currentUser} />
-          <Timeline
-            updatePostData={updatePostData}
-            posts={posts}
-            selectedCategory={selectedCategory}
-          />
-        </ProfileMain>
+          <Timeline selectedCategory={selectedCategory} />
+        </div>
         <SidePanel
-          {...props}
-          handleNewCategoryFormSubmit={handleNewCategoryFormSubmit}
-          handleNewPostFormSubmit={handleNewPostFormSubmit}
+          currentUser={currentUser}
           onSelectedCategoryChange={onSelectedCategoryChange}
+          syncUserDetails={props.syncUserDetails}
         />
       </div>
     </div>
   );
 };
 
-export default HomePage;
+const mapStateToProps = ({ posts }) => ({
+  posts: posts.posts
+});
+
+const mapDispatchToProps = dispatch => ({
+  setPosts: posts => dispatch({ type: PostActions.SET_POSTS, payload: posts })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

@@ -1,34 +1,36 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import Post from "../components/postComponent";
-import SidePanel from "../components/profileSidePanel";
 import CommentBox from "../components/commentBoxComponent";
-import ProfileMain from "../components/profileMainComponent";
+import { PostActions } from "../redux/posts/post-actions";
 
 const getPostById = (posts, postId) => {
   return posts.filter(post => post._id === postId)[0];
 };
 
 const SinglePostPage = props => {
-  let post = getPostById(props.posts, props.match.params.postId);
+  const { posts, updatePostData } = props;
+
+  const post = getPostById(posts, props.match.params.postId);
 
   return post ? (
     <div className="container">
       <div className="content">
-        <ProfileMain>
-          <Post
-            key={post._id}
-            post={post}
-            updatePostData={props.updatePostData}
-          />
-          <CommentBox post={post} {...props} />
-        </ProfileMain>
-        {/* <SidePanel /> */}
+        <Post key={post._id} post={post} updatePostData={updatePostData} />
+        <CommentBox post={post} {...props} />
       </div>
     </div>
-  ) : (
-    <></>
-  );
+  ) : null;
 };
 
-export default SinglePostPage;
+const mapStateToProps = ({ currentUser, posts }) => ({
+  currentUser: currentUser.currentUser,
+  posts: posts.posts
+});
+
+const mapDispatchToProps = dispatch => ({
+  setPosts: posts => dispatch({ type: PostActions.SET_POSTS, payload: posts })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SinglePostPage);

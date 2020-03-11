@@ -1,7 +1,33 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
+import Axios from "axios";
+import { connect } from "react-redux";
+
+import { PostActions } from "../redux/posts/post-actions";
+
+const fetchPosts = async () => {
+  try {
+    let response = await Axios.get("http://localhost:5000/posts");
+    return response.data.reverse();
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const Post = props => {
+  const { setPosts } = props;
+
+  const updatePostData = (postId, commentBody) => {
+    Axios.put(`http://localhost:5000/posts/${postId}`, {
+      user: props.currentUser,
+      body: commentBody
+    })
+      .then(response => {
+        fetchPosts().then(result => setPosts(result));
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <div className="contnt_2">
       <div className="div_a">
@@ -53,7 +79,7 @@ const Post = props => {
                   Flag
                 </Link>
               </li>
-              <li onClick={() => props.updatePostData(props.post._id)}>
+              <li onClick={() => updatePostData(props.post._id)}>
                 <Link replace to="#">
                   <span className="btn_icon">
                     <img src="/images/icon_003.png" alt="share" />
@@ -77,4 +103,12 @@ const Post = props => {
   );
 };
 
-export default withRouter(Post);
+const mapStateToProps = ({ posts }) => ({
+  posts: posts.posts
+});
+
+const mapDispatchToProps = dispatch => ({
+  setPosts: posts => dispatch({ type: PostActions.SET_POSTS, payload: posts })
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post));
