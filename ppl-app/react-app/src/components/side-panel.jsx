@@ -1,7 +1,7 @@
 import React from "react";
 
-import CreateNewPostForm from "./createNewPostFormComponent";
-import CreateNewCategoryForm from "./createNewCategoryFormComponent";
+import CreateNewPostForm from "./form-components/new-post-form";
+import CreateNewCategoryForm from "./form-components/new-category-form";
 
 const SidePanel = props => {
   return (
@@ -40,7 +40,7 @@ const SidePanel = props => {
                 >
                   <span className="list_icon">
                     <img
-                      src={`http://localhost:5000/assets/${category.picture}`}
+                      src={`http://192.168.100.171:5000/assets/${category.picture}`}
                       alt="up"
                     />
                   </span>

@@ -4,7 +4,7 @@ const Comment = props => (
   <li>
     <div className="list_image">
       <div className="image_sec">
-        <img src={`http://localhost:5000/assets/${props.comment.picture}`} />
+        <img src={`http://192.168.100.171:5000/assets/${props.comment.picture}`} />
       </div>
       <div className="image_name">{props.comment.name}</div>
     </div>

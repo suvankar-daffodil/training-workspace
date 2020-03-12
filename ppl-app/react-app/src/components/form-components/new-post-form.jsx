@@ -2,22 +2,23 @@ import React from "react";
 import Axios from "axios";
 import { connect } from "react-redux";
 
-import { PostActions } from "../redux/posts/post-actions";
-import FormInput from "./formInputComponent";
+import { PostActions } from "../../redux/posts/post-actions";
+import FormInput from "../form-input";
+import { apiRequests } from "../../API_REQUESTS";
 
-const fetchPosts = async () => {
-  try {
-    let response = await Axios.get("http://localhost:5000/posts");
-    return response.data.reverse();
-  } catch (err) {
-    console.log(err);
-  }
-};
+// const fetchPosts = async () => {
+//   try {
+//     let response = await Axios.get("http://192.168.100.171:5000/posts");
+//     return response.data.reverse();
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 const CreateNewPostForm = props => {
   const { setPosts } = props;
 
-  const handleNewPostFormSubmit = event => {
+  const handleNewPostFormSubmit = async event => {
     event.preventDefault();
     let formData = new FormData(event.target);
     let today = new Date();
@@ -36,18 +37,32 @@ const CreateNewPostForm = props => {
       props.currentUser.firstname + " " + props.currentUser.lastname
     );
     formData.set("userId", props.currentUser._id);
-    Axios.post("http://localhost:5000/posts", formData)
-      .then(response => {
-        response.data
-          ? alert("Upload Successfull!!")
-          : alert("Upload failed. Try again!!");
-        fetchPosts().then(response => {
-          setPosts(response);
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+
+    try {
+      let response = await apiRequests.ADD_POST(formData);
+      if (response.data) {
+        alert("Upload Successfull!!");
+        let response = await apiRequests.FETCH_ALL_POSTS();
+        if (response) setPosts(response.data.reverse());
+      } else {
+        alert("Upload failed. Try again!!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    // Axios.post("http://192.168.100.171:5000/posts", formData)
+    //   .then(response => {
+    //     response.data
+    //       ? alert("Upload Successfull!!")
+    //       : alert("Upload failed. Try again!!");
+    //     fetchPosts().then(response => {
+    //       setPosts(response);
+    //     });
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   };
 
   return (

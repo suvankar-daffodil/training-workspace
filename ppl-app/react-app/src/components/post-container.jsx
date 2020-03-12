@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { PostActions } from "../redux/posts/post-actions";
-import Post from "./postComponent";
+import Post from "./post";
 
 const getFilteredPosts = (posts, selectedCategory) =>
   posts.filter(post =>

@@ -3,19 +3,11 @@ import Axios from "axios";
 import $ from "jquery";
 import { connect } from "react-redux";
 
+import { apiRequests } from "../API_REQUESTS";
 import { PostActions } from "../redux/posts/post-actions";
-import Timeline from "../components/timelineComponent";
-import SidePanel from "../components/profileSidePanel";
-import ProfileCard from "../components/profileCardComponent";
-
-const fetchPosts = async () => {
-  try {
-    let response = await Axios.get("http://localhost:5000/posts");
-    return response.data.reverse();
-  } catch (err) {
-    console.log(err);
-  }
-};
+import Timeline from "../components/post-container";
+import SidePanel from "../components/side-panel";
+import ProfileCard from "../components/profile-card";
 
 const HomePage = props => {
   const { currentUser, setPosts } = props;
@@ -50,8 +42,8 @@ const HomePage = props => {
       $(".drop-menu2").toggle("slide");
     });
 
-    fetchPosts().then(response => {
-      setPosts(response);
+    apiRequests.FETCH_ALL_POSTS().then(response => {
+      setPosts(response.data.reverse());
     });
   }, []);
 
@@ -67,7 +59,10 @@ const HomePage = props => {
       <div className="content">
         <div className="content_lft">
           <ProfileCard currentUser={currentUser} />
-          <Timeline selectedCategory={selectedCategory} />
+          <Timeline
+            selectedCategory={selectedCategory}
+            currentUser={currentUser}
+          />
         </div>
         <SidePanel
           currentUser={currentUser}

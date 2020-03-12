@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Post from "../components/postComponent";
-import CommentBox from "../components/commentBoxComponent";
+import Post from "../components/post";
+import CommentBox from "../components/comment-container";
 import { PostActions } from "../redux/posts/post-actions";
 
 const getPostById = (posts, postId) => {
@@ -17,7 +17,7 @@ const SinglePostPage = props => {
   return post ? (
     <div className="container">
       <div className="content">
-        <Post key={post._id} post={post} updatePostData={updatePostData} />
+        <Post key={post._id} post={post} {...props} />
         <CommentBox post={post} {...props} />
       </div>
     </div>

@@ -77,18 +77,8 @@ router
 
 router.route("/posts/:postId").put(async (req, res) => {
   try {
-    if (req.body.body) {
-      let comment = {
-        name: req.body.user.firstname + " " + req.body.user.lastname,
-        picture: req.body.user.picture,
-        body: req.body.body
-      };
-      let result = await userApi.updateComment(req.params.postId, comment);
-      res.json(result);
-    } else {
-      let result = await userApi.updateLike(req.params.postId, req.body.user);
-      res.json(result);
-    }
+    let result = await userApi.updatePostById(req.body);
+    res.json(result);
   } catch (err) {
     res.status(400).send(err);
   }

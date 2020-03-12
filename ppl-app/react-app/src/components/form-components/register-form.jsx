@@ -1,23 +1,22 @@
 import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import FormInput from "./formInputComponent";
-import Axios from "axios";
+import FormInput from "../form-input";
+import { apiRequests } from "../../API_REQUESTS";
 
 const Register = props => {
   const [formData, setFormData] = useState({ picture: "profile-blank.png" });
 
   const handleSubmit = useCallback(
-    event => {
-      event.preventDefault();
-      Axios.post("http://localhost:5000/signup", formData)
-        .then(response => {
-          response.data
-            ? alert("Signup Successfull!! Login to continue!!")
-            : alert("User already exists!! Please try again..");
-        })
-        .catch(error => {
-          alert("ERROR SAVING USER!!! TRY LATER.");
-        });
+    async event => {
+      try {
+        event.preventDefault();
+        let response = await apiRequests.REGISTER_USER(formData);
+        response.data
+          ? alert("Signup Successfull!! Login to continue!!")
+          : alert("User already exists!! Please try again..");
+      } catch (error) {
+        alert("ERROR SAVING USER!!! TRY LATER.");
+      }
     },
     [formData]
   );

@@ -20,7 +20,7 @@ const ProfileCard = props => {
         <div className="timeline_div1">
           <div className="profile_pic">
             <img
-              src={`http://localhost:5000/assets/${props.currentUser?.picture}`}
+              src={`http://192.168.100.171:5000/assets/${props.currentUser?.picture}`}
             />
             <div className="profile_text">
               <span>Change Profile Pic</span>

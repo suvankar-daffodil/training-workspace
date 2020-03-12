@@ -70,24 +70,11 @@ module.exports = {
       );
     }),
 
-  updateLike: (postId, userId) =>
+  updatePostById: post =>
     new Promise((resolve, reject) => {
       postModel.findByIdAndUpdate(
-        postId,
-        { $addToSet: { likes: userId } },
-        { returnOriginal: false, useFindAndModify: false },
-        (err, data) => {
-          if (err) reject(err);
-          else resolve(data);
-        }
-      );
-    }),
-
-  updateComment: (postId, newData) =>
-    new Promise((resolve, reject) => {
-      postModel.findByIdAndUpdate(
-        postId,
-        { $push: { comments: newData } },
+        post._id,
+        post,
         { returnOriginal: false, useFindAndModify: false },
         (err, data) => {
           if (err) reject(err);

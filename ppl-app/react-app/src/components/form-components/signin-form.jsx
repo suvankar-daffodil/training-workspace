@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import Axios from "axios";
 import { connect } from "react-redux";
 
-import { UserActions } from "../redux/user/user-actions";
-import FormInput from "./formInputComponent";
+import { apiRequests } from "../../API_REQUESTS";
+import { UserActions } from "../../redux/user/user-actions";
+import FormInput from "../form-input";
 
 const SignIn = props => {
   const { setCurrentUser } = props;
@@ -14,10 +14,7 @@ const SignIn = props => {
     async event => {
       event.preventDefault();
       try {
-        let response = await Axios.post(
-          "http://localhost:5000/login",
-          formData
-        );
+        let response = await apiRequests.LOGIN_USER(formData);
         if (response.data) {
           localStorage.setItem("currentUser", JSON.stringify(response.data));
           setCurrentUser(response.data);

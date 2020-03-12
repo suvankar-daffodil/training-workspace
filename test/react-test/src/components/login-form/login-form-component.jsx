@@ -1,6 +1,10 @@
 import React, { useState, useCallback } from "react";
+import axios from "axios";
 
-import "./loginFormComponentStyle.css";
+import "./login-form-style.css";
+
+import Production from "../../config/production";
+import Staging from "../../config/staging";
 
 const LoginForm = props => {
   const [formData, setFormData] = useState({});
@@ -15,7 +19,10 @@ const LoginForm = props => {
   const handleSubmit = useCallback(
     event => {
       event.preventDefault();
-      makeApiCall(formData);
+
+      makeAPICall()
+        .then(response => console.log(response))
+        .catch(err => console.log(err?.response?.data));
     },
     [formData]
   );
@@ -55,34 +62,29 @@ const LoginForm = props => {
   );
 };
 
-const makeApiCall = formData => {
-  // let proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-
-  let myHeaders = new Headers();
-  myHeaders.append("Accept", "application/json");
-  myHeaders.append("DeviceId", "TestCompressUserDevice");
-  myHeaders.append("OperatingSystem", "Android");
-  myHeaders.append("OperatingSystemVersion", "v-3.2");
-  myHeaders.append("DeviceName", "Samsung");
-  myHeaders.append("protocol", "ipsec");
-  myHeaders.append("ApiVersion", "v2");
-  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-  let urlencoded = new URLSearchParams();
-  urlencoded.append("extref", "TestCompress");
-
-  let requestOptions = {
-    method: "POST",
-    // mode: "no-cors",
-    headers: myHeaders,
-    body: urlencoded,
-    redirect: "follow"
+const makeAPICall = async userData => {
+  const headers = {
+    Accept: "application/json",
+    DeviceId: "TestCompressUserDevice",
+    OperatingSystem: "Android",
+    OperatingSystemVersion: "v-3.2",
+    DeviceName: "Samsung",
+    protocol: "ipsec",
+    ApiVersion: "v2",
+    "Content-Type": "application/x-www-form-urlencoded"
   };
 
-  fetch("https://fsvpn.whitelabel.com.br/api/user/login", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log("error", error));
+  var urlencoded = new URLSearchParams();
+  urlencoded.append("extref", "TestCompress");
+
+  const config = {
+    method: "POST",
+    url: Staging.url,
+    data: urlencoded,
+    headers: headers
+  };
+
+  return await axios(config);
 };
 
 export default LoginForm;

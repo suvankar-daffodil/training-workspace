@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Welcome from "../components/welcomeComponent";
-import SignIn from "../components/signInFormComponent";
-import Register from "../components/registerFormComponent";
-import ResetPassword from "../components/resetPasswordFormComponent";
+import Welcome from "../components/welcome-box";
+import SignIn from "../components/form-components/signin-form";
+import Register from "../components/form-components/register-form";
+import ResetPassword from "../components/form-components/password-reset-form";
 
 const AuthPage = props => {
   return (

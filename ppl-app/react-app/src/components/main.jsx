@@ -1,11 +1,11 @@
 import React from "react";
 
-import PrivateRoute from "./route-components/privateRoute";
-import CustomAccessRoute from "./route-components/customAccessRoute";
+import PrivateRoute from "./route-components/private-route";
+import CustomAccessRoute from "./route-components/custom-route";
 
-import HomePage from "../pages/homePage";
-import AuthPage from "../pages/authPage";
-import SinglePostPage from "../pages/singlePostPage";
+import HomePage from "../pages/home";
+import AuthPage from "../pages/authentication";
+import SinglePostPage from "../pages/single-post";
 
 const Main = props => {
   return (

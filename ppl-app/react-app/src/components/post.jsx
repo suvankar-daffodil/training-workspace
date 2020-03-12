@@ -4,28 +4,24 @@ import Axios from "axios";
 import { connect } from "react-redux";
 
 import { PostActions } from "../redux/posts/post-actions";
-
-const fetchPosts = async () => {
-  try {
-    let response = await Axios.get("http://localhost:5000/posts");
-    return response.data.reverse();
-  } catch (err) {
-    console.log(err);
-  }
-};
+import { apiRequests } from "../API_REQUESTS";
 
 const Post = props => {
   const { setPosts } = props;
 
-  const updatePostData = (postId, commentBody) => {
-    Axios.put(`http://localhost:5000/posts/${postId}`, {
-      user: props.currentUser,
-      body: commentBody
-    })
-      .then(response => {
-        fetchPosts().then(result => setPosts(result));
-      })
-      .catch(err => console.log(err));
+  const updatePostData = async post => {
+    if (!post.likes.includes(props.currentUser._id)) {
+      post.likes.push(props.currentUser);
+      try {
+        let response = await apiRequests.UPDATE_POST_BY_ID(post);
+        if (response) {
+          let result = await apiRequests.FETCH_ALL_POSTS();
+          if (result) setPosts(result.data.reverse());
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -49,13 +45,13 @@ const Post = props => {
           {props.match.path === "/" ? (
             <Link replace to={`/posts/${props.post._id}`}>
               <img
-                src={`http://localhost:5000/uploads/${props.post.picture}`}
+                src={`http://192.168.100.171:5000/uploads/${props.post.picture}`}
                 alt="pet"
               />
             </Link>
           ) : (
             <img
-              src={`http://localhost:5000/uploads/${props.post.picture}`}
+              src={`http://192.168.100.171:5000/uploads/${props.post.picture}`}
               alt="pet"
             />
           )}
@@ -79,7 +75,7 @@ const Post = props => {
                   Flag
                 </Link>
               </li>
-              <li onClick={() => updatePostData(props.post._id)}>
+              <li onClick={() => updatePostData(props.post)}>
                 <Link replace to="#">
                   <span className="btn_icon">
                     <img src="/images/icon_003.png" alt="share" />
@@ -103,12 +99,8 @@ const Post = props => {
   );
 };
 
-const mapStateToProps = ({ posts }) => ({
-  posts: posts.posts
-});
-
 const mapDispatchToProps = dispatch => ({
   setPosts: posts => dispatch({ type: PostActions.SET_POSTS, payload: posts })
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post));
+export default withRouter(connect(null, mapDispatchToProps)(Post));
