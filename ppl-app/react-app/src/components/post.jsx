@@ -1,21 +1,21 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import Axios from "axios";
 import { connect } from "react-redux";
 
 import { PostActions } from "../redux/posts/post-actions";
-import { apiRequests } from "../API_REQUESTS";
+import { url, updatePostById, fetchAllPosts } from "../api";
 
 const Post = props => {
   const { setPosts } = props;
 
   const updatePostData = async post => {
+    console.log(post.likes);
     if (!post.likes.includes(props.currentUser._id)) {
       post.likes.push(props.currentUser);
       try {
-        let response = await apiRequests.UPDATE_POST_BY_ID(post);
+        let response = await updatePostById(post);
         if (response) {
-          let result = await apiRequests.FETCH_ALL_POSTS();
+          let result = await fetchAllPosts();
           if (result) setPosts(result.data.reverse());
         }
       } catch (error) {
@@ -44,16 +44,10 @@ const Post = props => {
         <div className="div_image">
           {props.match.path === "/" ? (
             <Link replace to={`/posts/${props.post._id}`}>
-              <img
-                src={`http://192.168.100.171:5000/uploads/${props.post.picture}`}
-                alt="pet"
-              />
+              <img src={`${url}/uploads/${props.post.picture}`} alt="pet" />
             </Link>
           ) : (
-            <img
-              src={`http://192.168.100.171:5000/uploads/${props.post.picture}`}
-              alt="pet"
-            />
+            <img src={`${url}/uploads/${props.post.picture}`} alt="pet" />
           )}
         </div>
         <div className="div_btm">

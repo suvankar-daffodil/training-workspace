@@ -1,5 +1,6 @@
 import React from "react";
 
+import { url } from "../api";
 import CreateNewPostForm from "./form-components/new-post-form";
 import CreateNewCategoryForm from "./form-components/new-category-form";
 
@@ -39,10 +40,26 @@ const SidePanel = props => {
                   onClick={() => props.onSelectedCategoryChange(category.name)}
                 >
                   <span className="list_icon">
-                    <img
-                      src={`http://192.168.100.171:5000/assets/${category.picture}`}
-                      alt="up"
-                    />
+                    {(() => {
+                      let names = [
+                        "CATS",
+                        "DOGS",
+                        "RABBITS",
+                        "BIRDS",
+                        "OTHERS"
+                      ];
+                      return names.indexOf(category.name) !== -1 ? (
+                        <img
+                          src={`${url}/assets/${category.picture}`}
+                          alt="up"
+                        />
+                      ) : (
+                        <img
+                          src={`${url}/uploads/${category.picture}`}
+                          alt="up"
+                        />
+                      );
+                    })()}
                   </span>
                   {category.name}
                 </div>
@@ -51,7 +68,7 @@ const SidePanel = props => {
           </ul>
         </div>
       </div>
-      
+
       <div className="rght_cate">
         <div className="rght_cate_hd" id="opn_cat_bg">
           Featured

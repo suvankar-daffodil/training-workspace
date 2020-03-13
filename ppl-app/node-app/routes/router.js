@@ -7,7 +7,6 @@ const userApi = require("../controllers/api");
 const router = express.Router();
 
 const upload = multer({ dest: "./public/uploads/" });
-const upload2 = multer({ dest: "./public/assets/" });
 
 router.get("/users", async (req, res) => {
   try {
@@ -41,11 +40,8 @@ router
   .route("/login")
   .post(async (req, res, next) => {
     try {
-      let user = await userApi.getUserByEmail(req.body.email);
-      if (user) {
-        req.user = user;
-        res.json(user);
-      } else res.end(user);
+      let user = await userApi.getUser(req.body);
+      res.json(user);
     } catch (err) {
       console.log(err);
     }
@@ -84,7 +80,7 @@ router.route("/posts/:postId").put(async (req, res) => {
   }
 });
 
-router.route("/categories").post(upload2.single("image"), async (req, res) => {
+router.route("/categories").post(upload.single("image"), async (req, res) => {
   try {
     let data = [{ name: req.body.category, picture: req.file.filename }];
     let result = await userApi.addCategory(req.body.user, data);

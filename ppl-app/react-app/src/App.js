@@ -6,13 +6,18 @@ import Main from "./components/main";
 import Footer from "./components/footer";
 import Header from "./components/header";
 import { UserActions } from "./redux/user/user-actions";
+import { loginUser } from "./api";
 
 const App = props => {
   const { currentUser, setCurrentUser } = props;
 
   useEffect(() => {
-    let value = JSON.parse(localStorage.getItem("currentUser"));
-    setCurrentUser(value);
+    let value = localStorage.getItem("currentUser");
+    loginUser({ _id: value })
+      .then(response => {
+        setCurrentUser(response.data);
+      })
+      .catch(error => console.log(error));
   }, []);
 
   return (

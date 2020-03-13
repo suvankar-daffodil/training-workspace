@@ -1,17 +1,34 @@
 import React from "react";
+import { useEffect } from "react";
+import $ from "jquery";
 
-const PopUp = () => {
+const PopUp = props => {
   return (
     <div className="popup_sec" id="pop_forgt">
-      <div className="clos_btn">
-        <img src="images/clos.png" alt="" id="clos_pop" />
+      <div
+        className="clos_btn"
+        onClick={() => {
+          $("#pop_forgt").toggle("slide");
+          setTimeout(() => {
+            props.setPopUpData(null);
+          }, 100);
+        }}
+      >
+        <img src="/images/clos.png" alt="" id="clos_pop" />
       </div>
-      <div className="pop_hdr">
-        A mail has been send to your e-mail Id for Reset Password Link
-      </div>
+      <div className="pop_hdr">{props.title}</div>
       <div className="man_contnt">
-        <span>Please Check Your Mail Box!</span>
-        <input type="submit" value="Ok" />
+        <span>{props.message}</span>
+        <input
+          type="submit"
+          value="Ok"
+          onClick={() => {
+            $("#pop_forgt").toggle("slide");
+            setTimeout(() => {
+              props.setPopUpData(null);
+            }, 100);
+          }}
+        />
       </div>
     </div>
   );

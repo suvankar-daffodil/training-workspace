@@ -1,22 +1,14 @@
-import React from "react";
-import Axios from "axios";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
+import PopUp from "../alert-pop-up";
 import { PostActions } from "../../redux/posts/post-actions";
 import FormInput from "../form-input";
-import { apiRequests } from "../../API_REQUESTS";
-
-// const fetchPosts = async () => {
-//   try {
-//     let response = await Axios.get("http://192.168.100.171:5000/posts");
-//     return response.data.reverse();
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+import { addPost, fetchAllPosts } from "../../api";
 
 const CreateNewPostForm = props => {
   const { setPosts } = props;
+  const [popUpData, setPopUpData] = useState(null);
 
   const handleNewPostFormSubmit = async event => {
     event.preventDefault();
@@ -39,63 +31,54 @@ const CreateNewPostForm = props => {
     formData.set("userId", props.currentUser._id);
 
     try {
-      let response = await apiRequests.ADD_POST(formData);
+      let response = await addPost(formData);
       if (response.data) {
-        alert("Upload Successfull!!");
-        let response = await apiRequests.FETCH_ALL_POSTS();
+        setPopUpData({ title: "", message: "Upload Successfull!!" });
+        let response = await fetchAllPosts();
         if (response) setPosts(response.data.reverse());
       } else {
-        alert("Upload failed. Try again!!");
+        setPopUpData({ title: "", message: "Upload failed. Try again!!" });
       }
     } catch (error) {
       console.log(error);
     }
-
-    // Axios.post("http://192.168.100.171:5000/posts", formData)
-    //   .then(response => {
-    //     response.data
-    //       ? alert("Upload Successfull!!")
-    //       : alert("Upload failed. Try again!!");
-    //     fetchPosts().then(response => {
-    //       setPosts(response);
-    //     });
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
   };
 
   return (
-    <div className="drop-menu1">
-      <h2>New Post</h2>
-      <form onSubmit={handleNewPostFormSubmit}>
-        <FormInput
-          name="title"
-          label="Title"
-          type="text"
-          placeholder="Enter title for your post"
-        />
-        <span>Tag</span>
-        <select name="tag">
-          <option>Select category tag</option>
-          {props.currentUser?.categories?.map((category, index) => (
-            <option
-              key={index}
-              value={category.name.slice(0, -1).toUpperCase()}
-            >
-              {category.name.slice(0, -1).toUpperCase()}
-            </option>
-          ))}
-        </select>
-        <FormInput
-          name="image"
-          label="Image"
-          type="file"
-          placeholder="Upload picture"
-        />
-        <FormInput type="submit" value="Upload Post" />
-      </form>
-    </div>
+    <>
+      {popUpData ? <PopUp {...popUpData} setPopUpData={setPopUpData} /> : null}
+
+      <div className="drop-menu1">
+        <h2>New Post</h2>
+        <form onSubmit={handleNewPostFormSubmit}>
+          <FormInput
+            name="title"
+            label="Title"
+            type="text"
+            placeholder="Enter title for your post"
+          />
+          <span>Tag</span>
+          <select name="tag">
+            <option>Select category tag</option>
+            {props.currentUser?.categories?.map((category, index) => (
+              <option
+                key={index}
+                value={category.name.slice(0, -1).toUpperCase()}
+              >
+                {category.name.slice(0, -1).toUpperCase()}
+              </option>
+            ))}
+          </select>
+          <FormInput
+            name="image"
+            label="Image"
+            type="file"
+            placeholder="Upload picture"
+          />
+          <FormInput type="submit" value="Upload Post" />
+        </form>
+      </div>
+    </>
   );
 };
 

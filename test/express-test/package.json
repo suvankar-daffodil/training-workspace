@@ -18,6 +18,7 @@
     "nodemon": "^2.0.2",
     "openvpn-bin": "^0.1.2",
     "openvpn-client": "0.0.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "softap-setup": "^4.1.0"
   }
 }

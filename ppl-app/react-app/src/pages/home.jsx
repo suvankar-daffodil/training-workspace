@@ -1,9 +1,8 @@
 import React, { useState, useCallback, useEffect } from "react";
-import Axios from "axios";
 import $ from "jquery";
 import { connect } from "react-redux";
 
-import { apiRequests } from "../API_REQUESTS";
+import { fetchAllPosts } from "../api";
 import { PostActions } from "../redux/posts/post-actions";
 import Timeline from "../components/post-container";
 import SidePanel from "../components/side-panel";
@@ -42,7 +41,7 @@ const HomePage = props => {
       $(".drop-menu2").toggle("slide");
     });
 
-    apiRequests.FETCH_ALL_POSTS().then(response => {
+    fetchAllPosts().then(response => {
       setPosts(response.data.reverse());
     });
   }, []);
@@ -52,7 +51,7 @@ const HomePage = props => {
       props.location.state.fromHeader = false;
       setSelectedCategory("");
     }
-  }, [props.location.state?.fromHeader]);
+  }, [props.location.state]);
 
   return (
     <div className="container">

@@ -2,23 +2,26 @@ import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { apiRequests } from "../../API_REQUESTS";
+import PopUp from "../alert-pop-up";
+import { loginUser } from "../../api";
 import { UserActions } from "../../redux/user/user-actions";
 import FormInput from "../form-input";
+import { useEffect } from "react";
 
 const SignIn = props => {
   const { setCurrentUser } = props;
   const [formData, setFormData] = useState({});
+  const [popUpData, setPopUpData] = useState(false);
 
   const handleSubmit = useCallback(
     async event => {
       event.preventDefault();
       try {
-        let response = await apiRequests.LOGIN_USER(formData);
+        let response = await loginUser(formData);
         if (response.data) {
-          localStorage.setItem("currentUser", JSON.stringify(response.data));
+          localStorage.setItem("currentUser", response.data._id);
           setCurrentUser(response.data);
-        } else alert("User or password incorrect!!");
+        } else setPopUpData(true);
       } catch (err) {
         console.log(err);
       }
@@ -34,43 +37,47 @@ const SignIn = props => {
   );
 
   return (
-    <div className="content_rgt">
-      <div className="login_sec">
-        <h1>Log In</h1>
-        <ul>
-          <form onSubmit={handleSubmit}>
-            <FormInput
-              changeHandler={handleChange}
-              name="email"
-              label="Email"
-              type="text"
-              placeholder="Enter your email"
-            />
-            <FormInput
-              changeHandler={handleChange}
-              name="password"
-              label="Password"
-              type="password"
-              placeholder="Enter your password"
-            />
-            <li>
-              <input type="checkbox" />
-              Remember me
-            </li>
-            <li>
-              <input type="submit" value="Login" />
-              <Link to="/auth/password-reset">Forgot Password</Link>
-            </li>
-          </form>
-        </ul>
-        <div className="addtnal_acnt">
-          I do not have any account yet.
-          <Link replace to="/auth/signup">
-            Create My Account Now !
-          </Link>
+    <>
+      {popUpData ? <PopUp {...popUpData} setPopUpData={setPopUpData} /> : null}
+
+      <div className="content_rgt">
+        <div className="login_sec">
+          <h1>Log In</h1>
+          <ul>
+            <form onSubmit={handleSubmit}>
+              <FormInput
+                changeHandler={handleChange}
+                name="email"
+                label="Email"
+                type="text"
+                placeholder="Enter your email"
+              />
+              <FormInput
+                changeHandler={handleChange}
+                name="password"
+                label="Password"
+                type="password"
+                placeholder="Enter your password"
+              />
+              <li>
+                <input type="checkbox" />
+                Remember me
+              </li>
+              <li>
+                <input type="submit" value="Login" />
+                <Link to="/auth/password-reset">Forgot Password</Link>
+              </li>
+            </form>
+          </ul>
+          <div className="addtnal_acnt">
+            I do not have any account yet.
+            <Link replace to="/auth/signup">
+              Create My Account Now !
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

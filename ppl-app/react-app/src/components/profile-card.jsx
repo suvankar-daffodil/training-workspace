@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { url } from "../api";
+
 const ProfileCard = props => {
   return (
     <div className="contnt_1">
@@ -19,9 +21,7 @@ const ProfileCard = props => {
       <div className="timeline_div">
         <div className="timeline_div1">
           <div className="profile_pic">
-            <img
-              src={`http://192.168.100.171:5000/assets/${props.currentUser?.picture}`}
-            />
+            <img src={`${url}/assets/${props.currentUser?.picture}`} />
             <div className="profile_text">
               <span>Change Profile Pic</span>
             </div>
@@ -44,9 +44,7 @@ const ProfileCard = props => {
                 </li>
                 <li>
                   <div className="div_name1">Sex :</div>
-                  <div className="div_name2">
-                    {props.currentUser?.gender}
-                  </div>
+                  <div className="div_name2">{props.currentUser?.gender}</div>
                 </li>
                 <li>
                   <div className="div_name1">Description :</div>

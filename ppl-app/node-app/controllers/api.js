@@ -17,6 +17,14 @@ module.exports = {
       });
     }),
 
+  getUser: userData =>
+    new Promise((resolve, reject) => {
+      userModel.findOne(userData, (err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    }),
+
   getUserByEmail: userEmail =>
     new Promise((resolve, reject) => {
       userModel.findOne({ email: userEmail }, (err, data) => {

@@ -153,7 +153,7 @@ const Header = props => {
               {/* <li>
                 <Link replace to="#"> Lost and Found</Link>
               </li> */}
-              {props.currentUser ? (
+              {currentUser ? (
                 <li>
                   <span
                     onClick={() => {
@@ -176,7 +176,7 @@ const Header = props => {
           </div>
           <input type="text" placeholder="Search" className="txt_box" />
 
-          {props.currentUser ? (
+          {currentUser ? (
             <>
               <div className="msg_box">
                 <Link replace to="#">

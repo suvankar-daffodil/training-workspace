@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Comment from "./comment";
-import { apiRequests } from "../API_REQUESTS";
+import { updatePostById, fetchAllPosts } from "../api";
 import { PostActions } from "../redux/posts/post-actions";
 
 const CommentBox = props => {
@@ -16,9 +16,9 @@ const CommentBox = props => {
       picture: props.currentUser.picture
     });
     try {
-      let response = await apiRequests.UPDATE_POST_BY_ID(post);
+      let response = await updatePostById(post);
       if (response) {
-        let result = await apiRequests.FETCH_ALL_POSTS();
+        let result = await fetchAllPosts();
         if (result) setPosts(result.data.reverse());
       }
     } catch (error) {
