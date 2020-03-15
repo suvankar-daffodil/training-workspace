@@ -11,7 +11,7 @@ const upload = multer({ dest: "./public/uploads/" });
 router.get("/users", async (req, res) => {
   try {
     let data = await userApi.getAllUsers();
-    res.json(data);
+    res.end(JSON.stringify(data, null, 3));
   } catch (err) {
     console.log(err);
   }

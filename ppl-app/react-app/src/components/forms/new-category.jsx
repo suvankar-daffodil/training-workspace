@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import PopUp from "../alert-pop-up";
-import { PostActions } from "../../redux/posts/post-actions";
 import FormInput from "../form-input";
 import { addCategory } from "../../api";
-import { UserActions } from "../../redux/user/user-actions";
+import { setCurrentUser } from "../../redux/user/user-actions";
 
 const CreateNewCategoryForm = props => {
-  const { setPosts, setCurrentUser, currentUser } = props;
+  const dispatch = useDispatch();
+  const { currentUser } = props;
   const [popUpData, setPopUpData] = useState(null);
 
   const handleNewCategoryFormSubmit = async event => {
@@ -23,10 +23,13 @@ const CreateNewCategoryForm = props => {
           title: "",
           message: "New category added successfully!!!"
         });
-        setCurrentUser(response.data);
+        dispatch(setCurrentUser(response.data));
       } else setPopUpData({ title: "", message: "Failed. Try again!!" });
     } catch (error) {
-      console.log(error);
+      setPopUpData({
+        title: "Oops!!Some error occured.",
+        message: "Try again!!"
+      });
     }
   };
 
@@ -57,17 +60,4 @@ const CreateNewCategoryForm = props => {
   );
 };
 
-const mapStateToProps = ({ posts }) => ({
-  posts: posts.posts
-});
-
-const mapDispatchToProps = dispatch => ({
-  setPosts: posts => dispatch({ type: PostActions.SET_POSTS, payload: posts }),
-  setCurrentUser: user =>
-    dispatch({ type: UserActions.SET_CURRENT_USER, payload: user })
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateNewCategoryForm);
+export default CreateNewCategoryForm;

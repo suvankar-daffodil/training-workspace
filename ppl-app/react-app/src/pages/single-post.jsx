@@ -1,18 +1,19 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import Post from "../components/post";
 import CommentBox from "../components/comment-container";
-import { PostActions } from "../redux/posts/post-actions";
 
 const getPostById = (posts, postId) => {
   return posts.filter(post => post._id === postId)[0];
 };
 
 const SinglePostPage = props => {
-  const { posts, updatePostData } = props;
+  const posts = useSelector(state => state.posts.posts);
+  const params = useParams();
 
-  const post = getPostById(posts, props.match.params.postId);
+  const post = getPostById(posts, params.postId);
 
   return post ? (
     <div className="container">
@@ -24,13 +25,4 @@ const SinglePostPage = props => {
   ) : null;
 };
 
-const mapStateToProps = ({ currentUser, posts }) => ({
-  currentUser: currentUser.currentUser,
-  posts: posts.posts
-});
-
-const mapDispatchToProps = dispatch => ({
-  setPosts: posts => dispatch({ type: PostActions.SET_POSTS, payload: posts })
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SinglePostPage);
+export default SinglePostPage;

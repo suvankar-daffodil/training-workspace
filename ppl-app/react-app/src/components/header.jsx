@@ -1,11 +1,12 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { UserActions } from "../redux/user/user-actions";
+import { Link, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setCurrentUser } from "../redux/user/user-actions";
 
 const Header = props => {
-  const { currentUser, setCurrentUser } = props;
-
+  const history = useHistory();
+  const currentUser = useSelector(state => state.currentUser.currentUser);
+  const dispatch = useDispatch();
   return (
     <div>
       <div className="navbar navbar-inverse navbar-fixed-top">
@@ -24,7 +25,7 @@ const Header = props => {
             <span
               className="brand"
               onClick={() =>
-                props.history.push({
+                history.push({
                   pathname: "/",
                   state: { fromHeader: true }
                 })
@@ -72,7 +73,7 @@ const Header = props => {
                 <li className="active">
                   <span
                     onClick={() =>
-                      props.history.push({
+                      history.push({
                         pathname: "/",
                         state: { fromHeader: true }
                       })
@@ -111,7 +112,7 @@ const Header = props => {
           <div className="logo">
             <span
               onClick={() =>
-                props.history.push({
+                history.push({
                   pathname: "/",
                   state: { fromHeader: true }
                 })
@@ -126,7 +127,7 @@ const Header = props => {
                 <span
                   className="active"
                   onClick={() =>
-                    props.history.push({
+                    history.push({
                       pathname: "/",
                       state: { fromHeader: true }
                     })
@@ -158,7 +159,7 @@ const Header = props => {
                   <span
                     onClick={() => {
                       localStorage.removeItem("currentUser");
-                      setCurrentUser(null);
+                      dispatch(setCurrentUser(null));
                     }}
                   >
                     Signout
@@ -199,16 +200,4 @@ const Header = props => {
   );
 };
 
-const mapStateToProps = ({ currentUser }) => ({
-  currentUser: currentUser.currentUser
-});
-
-const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user =>
-    dispatch({
-      type: UserActions.SET_CURRENT_USER,
-      payload: user
-    })
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
+export default Header;

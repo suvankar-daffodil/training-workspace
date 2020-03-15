@@ -2,9 +2,9 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 
 import Welcome from "../components/welcome-box";
-import SignIn from "../components/form-components/signin-form";
-import Register from "../components/form-components/register-form";
-import ResetPassword from "../components/form-components/password-reset-form";
+import SignIn from "../components/forms/signin";
+import Register from "../components/forms/signup";
+import ResetPassword from "../components/forms/password-reset";
 
 const AuthPage = props => {
   return (
@@ -12,9 +12,17 @@ const AuthPage = props => {
       <div className="content">
         <Welcome />
         <Switch>
-          <Route path="/auth/signin" render={() => <SignIn {...props} />} />
-          <Route path="/auth/signup" render={() => <Register {...props} />} />
-          <Route path="/auth/password-reset" component={ResetPassword} />
+          <Route path="/auth/signin">
+            <SignIn />
+          </Route>
+
+          <Route path="/auth/signup">
+            <Register />
+          </Route>
+
+          <Route path="/auth/password-reset">
+            <ResetPassword />
+          </Route>
         </Switch>
       </div>
     </div>

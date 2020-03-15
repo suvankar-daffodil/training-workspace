@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import PopUp from "../alert-pop-up";
-import { PostActions } from "../../redux/posts/post-actions";
+import { setPosts } from "../../redux/posts/post-actions";
 import FormInput from "../form-input";
 import { addPost, fetchAllPosts } from "../../api";
 
 const CreateNewPostForm = props => {
-  const { setPosts } = props;
+  const dispatch = useDispatch();
   const [popUpData, setPopUpData] = useState(null);
 
   const handleNewPostFormSubmit = async event => {
@@ -35,12 +35,15 @@ const CreateNewPostForm = props => {
       if (response.data) {
         setPopUpData({ title: "", message: "Upload Successfull!!" });
         let response = await fetchAllPosts();
-        if (response) setPosts(response.data.reverse());
+        if (response) dispatch(setPosts(response.data.reverse()));
       } else {
         setPopUpData({ title: "", message: "Upload failed. Try again!!" });
       }
     } catch (error) {
-      console.log(error);
+      setPopUpData({
+        title: "Oops!!Some error occured.",
+        message: "Try again!!"
+      });
     }
   };
 
@@ -82,12 +85,4 @@ const CreateNewPostForm = props => {
   );
 };
 
-const mapStateToProps = ({ posts }) => ({
-  posts: posts.posts
-});
-
-const mapDispatchToProps = dispatch => ({
-  setPosts: posts => dispatch({ type: PostActions.SET_POSTS, payload: posts })
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateNewPostForm);
+export default CreateNewPostForm;

@@ -1,15 +1,18 @@
 import React, { useState, useCallback, useEffect } from "react";
 import $ from "jquery";
-import { connect } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { fetchAllPosts } from "../api";
-import { PostActions } from "../redux/posts/post-actions";
+import { setPosts } from "../redux/posts/post-actions";
 import Timeline from "../components/post-container";
 import SidePanel from "../components/side-panel";
 import ProfileCard from "../components/profile-card";
 
 const HomePage = props => {
-  const { currentUser, setPosts } = props;
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { currentUser } = props;
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const onSelectedCategoryChange = useCallback(tag => {
@@ -42,16 +45,16 @@ const HomePage = props => {
     });
 
     fetchAllPosts().then(response => {
-      setPosts(response.data.reverse());
+      dispatch(setPosts(response.data.reverse()));
     });
   }, []);
 
   useEffect(() => {
-    if (props.location.state?.fromHeader) {
-      props.location.state.fromHeader = false;
+    if (location.state?.fromHeader) {
+      location.state.fromHeader = false;
       setSelectedCategory("");
     }
-  }, [props.location.state]);
+  }, [location.state]);
 
   return (
     <div className="container">
@@ -66,19 +69,10 @@ const HomePage = props => {
         <SidePanel
           currentUser={currentUser}
           onSelectedCategoryChange={onSelectedCategoryChange}
-          syncUserDetails={props.syncUserDetails}
         />
       </div>
     </div>
   );
 };
 
-const mapStateToProps = ({ posts }) => ({
-  posts: posts.posts
-});
-
-const mapDispatchToProps = dispatch => ({
-  setPosts: posts => dispatch({ type: PostActions.SET_POSTS, payload: posts })
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default HomePage;

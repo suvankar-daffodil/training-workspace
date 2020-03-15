@@ -1,21 +1,22 @@
 import React, { useEffect } from "react";
-import { Switch } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { loginUser } from "./api";
+import { setCurrentUser } from "./redux/user/user-actions";
 
 import Main from "./components/main";
 import Footer from "./components/footer";
 import Header from "./components/header";
-import { UserActions } from "./redux/user/user-actions";
-import { loginUser } from "./api";
 
 const App = props => {
-  const { currentUser, setCurrentUser } = props;
+  const currentUser = useSelector(state => state.currentUser.currentUser);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let value = localStorage.getItem("currentUser");
     loginUser({ _id: value })
       .then(response => {
-        setCurrentUser(response.data);
+        dispatch(setCurrentUser(response.data))
       })
       .catch(error => console.log(error));
   }, []);
@@ -23,24 +24,10 @@ const App = props => {
   return (
     <>
       <Header />
-      <Switch>
-        <Main currentUser={currentUser} />
-      </Switch>
+      <Main currentUser={currentUser} />
       <Footer />
     </>
   );
 };
 
-const mapStateToProps = ({ currentUser }) => ({
-  currentUser: currentUser.currentUser
-});
-
-const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user =>
-    dispatch({
-      type: UserActions.SET_CURRENT_USER,
-      payload: user
-    })
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

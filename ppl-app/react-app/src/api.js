@@ -1,6 +1,7 @@
 import Axios from "axios";
 
-export const url = "http://192.168.100.171:5000";
+// export const url = "http://192.168.100.171:5000";
+export const url = "http://localhost:5000";
 
 export const registerUser = async userData => {
   try {

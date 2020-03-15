@@ -1,8 +1,8 @@
 import React from "react";
 
 import { url } from "../api";
-import CreateNewPostForm from "./form-components/new-post-form";
-import CreateNewCategoryForm from "./form-components/new-category-form";
+import CreateNewPostForm from "./forms/new-post";
+import CreateNewCategoryForm from "./forms/new-category";
 
 const SidePanel = props => {
   return (

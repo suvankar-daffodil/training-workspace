@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { dispatch } from "react-redux";
 
 import Comment from "./comment";
 import { updatePostById, fetchAllPosts } from "../api";
-import { PostActions } from "../redux/posts/post-actions";
+import { setPosts } from "../redux/posts/post-actions";
 
 const CommentBox = props => {
-  const { setPosts } = props;
+  const dispatch = dispatch();
 
   const updatePostData = async (post, commentBody) => {
     post.comments.push({
@@ -19,7 +19,7 @@ const CommentBox = props => {
       let response = await updatePostById(post);
       if (response) {
         let result = await fetchAllPosts();
-        if (result) setPosts(result.data.reverse());
+        if (result) dispatch(setPosts(result.data.reverse()));
       }
     } catch (error) {
       console.log(error);
@@ -67,8 +67,4 @@ const CommentBox = props => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  setPosts: posts => dispatch({ type: PostActions.SET_POSTS, payload: posts })
-});
-
-export default connect(null, mapDispatchToProps)(CommentBox);
+export default CommentBox;

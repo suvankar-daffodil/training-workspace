@@ -1,22 +1,23 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import { Link, useRouteMatch, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-import { PostActions } from "../redux/posts/post-actions";
+import { setPosts } from "../redux/posts/post-actions";
 import { url, updatePostById, fetchAllPosts } from "../api";
 
 const Post = props => {
-  const { setPosts } = props;
+  const dispatch = useDispatch();
+  const match = useRouteMatch();
+  const params = useParams();
 
   const updatePostData = async post => {
-    console.log(post.likes);
     if (!post.likes.includes(props.currentUser._id)) {
       post.likes.push(props.currentUser);
       try {
         let response = await updatePostById(post);
         if (response) {
           let result = await fetchAllPosts();
-          if (result) setPosts(result.data.reverse());
+          if (result) dispatch(setPosts(result.data.reverse()));
         }
       } catch (error) {
         console.log(error);
@@ -42,7 +43,7 @@ const Post = props => {
           </div>
         </div>
         <div className="div_image">
-          {props.match.path === "/" ? (
+          {match.path === "/" ? (
             <Link replace to={`/posts/${props.post._id}`}>
               <img src={`${url}/uploads/${props.post.picture}`} alt="pet" />
             </Link>
@@ -93,8 +94,4 @@ const Post = props => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  setPosts: posts => dispatch({ type: PostActions.SET_POSTS, payload: posts })
-});
-
-export default withRouter(connect(null, mapDispatchToProps)(Post));
+export default Post;

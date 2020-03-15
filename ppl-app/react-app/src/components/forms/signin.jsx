@@ -1,17 +1,16 @@
 import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import PopUp from "../alert-pop-up";
 import { loginUser } from "../../api";
-import { UserActions } from "../../redux/user/user-actions";
+import { setCurrentUser } from "../../redux/user/user-actions";
 import FormInput from "../form-input";
-import { useEffect } from "react";
 
 const SignIn = props => {
-  const { setCurrentUser } = props;
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
-  const [popUpData, setPopUpData] = useState(false);
+  const [popUpData, setPopUpData] = useState();
 
   const handleSubmit = useCallback(
     async event => {
@@ -20,10 +19,14 @@ const SignIn = props => {
         let response = await loginUser(formData);
         if (response.data) {
           localStorage.setItem("currentUser", response.data._id);
-          setCurrentUser(response.data);
-        } else setPopUpData(true);
+          dispatch(setCurrentUser(response.data));
+        } else
+          setPopUpData({
+            title: "Email or password incorrect!!",
+            message: "Please try again!!"
+          });
       } catch (err) {
-        console.log(err);
+        setPopUpData(err);
       }
     },
     [formData]
@@ -81,12 +84,4 @@ const SignIn = props => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user =>
-    dispatch({
-      type: UserActions.SET_CURRENT_USER,
-      payload: user
-    })
-});
-
-export default connect(null, mapDispatchToProps)(SignIn);
+export default SignIn;
