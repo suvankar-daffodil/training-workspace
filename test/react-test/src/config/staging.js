@@ -1,5 +1,5 @@
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-// const proxyUrl = "";
+// const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+ const proxyUrl = "";
 
 export default {
   url:

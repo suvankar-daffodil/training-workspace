@@ -79,7 +79,7 @@ const makeAPICall = async userData => {
 
   const config = {
     method: "POST",
-    url: Staging.url,
+    url: Production.url,
     data: urlencoded,
     headers: headers
   };
