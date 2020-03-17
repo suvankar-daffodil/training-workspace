@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { dispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import Comment from "./comment";
 import { updatePostById, fetchAllPosts } from "../api";
 import { setPosts } from "../redux/posts/post-actions";
 
 const CommentBox = props => {
-  const dispatch = dispatch();
+  const dispatch = useDispatch();
 
   const updatePostData = async (post, commentBody) => {
     post.comments.push({

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useRouteMatch, useParams } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { setPosts } from "../redux/posts/post-actions";
@@ -8,7 +8,6 @@ import { url, updatePostById, fetchAllPosts } from "../api";
 const Post = props => {
   const dispatch = useDispatch();
   const match = useRouteMatch();
-  const params = useParams();
 
   const updatePostData = async post => {
     if (!post.likes.includes(props.currentUser._id)) {
