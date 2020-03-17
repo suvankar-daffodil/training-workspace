@@ -1,7 +1,10 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu } = require("electron");
 const path = require("path");
-const server = require("../../server");
+const server = require("./server");
+
+
+// Menu.setApplicationMenu(null);
 
 function createWindow() {
   // Create the browser window.
