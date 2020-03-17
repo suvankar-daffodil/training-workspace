@@ -1,22 +1,23 @@
 const path = require("path");
-const webpack = require("webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: {
-    app: "./app/index.js"
+    app: path.resolve(__dirname, "app/src/index.js")
   },
   output: {
-    filename: "app.bundle.js",
-    path: path.resolve(__dirname, "./build"),
-    publicPath: "/"
+    filename: "main.js",
+    path: path.resolve(__dirname, "build")
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
+        resolve: {
+          extensions: [".js", ".jsx"]
+        },
         loader: "babel-loader",
         options: {
           presets: [
@@ -28,7 +29,10 @@ module.exports = {
                   node: "10"
                 }
               }
-            ]
+            ],
+            {
+              plugins: ["@babel/plugin-proposal-class-properties"]
+            }
           ]
         }
       },
@@ -37,25 +41,26 @@ module.exports = {
         use: ["style-loader", "css-loader"]
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg)$/,
-        loader: "file-loader?limit=8192&name=assets/[name].[ext]?[hash]"
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ["file-loader"]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: ["file-loader"]
       }
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify("development")
-      }
-    }),
-
     new HtmlWebpackPlugin({
-      template: "./app/index.html"
+      template: "./app/public/index.html"
     }),
     new CopyWebpackPlugin([
-      { from: "./app/favicon.ico" },
-      { from: "./app/assets", to: "assets" }
+      { from: "./app/public/favicon.ico" },
+      {
+        from: "./app/public",
+        ignore: ["index.html", "favicon.ico"],
+        to: "public"
+      }
     ])
-  ],
-  devtool: "eval"
+  ]
 };
