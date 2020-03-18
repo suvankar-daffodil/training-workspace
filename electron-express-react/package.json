@@ -1,15 +1,17 @@
 {
-  "name": "electron-express-react",
+  "name": "electron-react-express",
   "version": "1.0.0",
-  "description": "electron-express-react",
+  "description": "",
+  "author": "",
+  "license": "ISC",
   "homepage": "./",
   "main": "./app/public/electron.js",
   "scripts": {
     "start": "electron .",
-    "dev": "webpack-dev-server --open --config ./webpack.dev.js",
-    "build": "rimraf ./build && mkdir build && webpack --progress -p --config webpack.prod.js",
-    "electron-pack": "electron-builder -c.extraMetadata.main=build/public/electron.js",
-    "preelectron-pack": "npm run build"
+    "dev": "concurrently \"webpack-dev-server --config ./webpack.dev.js\" \"wait-on http://localhost:8080 && electron .\"",
+    "app-build": "rimraf ./build && mkdir build && webpack --progress -p --config webpack.prod.js",
+    "preelectron-pack": "npm run app-build",
+    "electron-pack": "electron-builder -c.extraMetadata.main=build/public/electron.js"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
@@ -27,6 +29,7 @@
     "html-webpack-plugin": "^3.2.0",
     "rimraf": "^3.0.2",
     "style-loader": "^1.1.3",
+    "wait-on": "^4.0.1",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
@@ -34,20 +37,23 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "electron-is-dev": "^1.1.0",
+    "electron-prompt": "^1.5.1",
+    "electron-sudo": "^4.0.12",
     "express": "^4.17.1",
     "path": "^0.12.7",
     "react": "^16.13.0",
-    "react-dom": "^16.13.0"
+    "react-dom": "^16.13.0",
+    "sudo-prompt": "^9.1.1"
   },
   "build": {
     "appId": "com.example.electron-express-react",
     "files": [
       "build/**/*",
       "node_modules/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    }
+    ]
   }
 }

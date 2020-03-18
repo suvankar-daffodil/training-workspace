@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
 
-const { exec } = require("child_process");
+const { exec, execSync } = require("child_process");
 
-exec("sudo -i", (error, stdout, stderr) => {
+// execSync("sudo ls", { input: "1\n" });
+
+exec("sudo ipsec down vpntest", { input: "1\n" }, (error, stdout, stderr) => {
   if (error) {
     console.log(`error: ${error.message}`);
     return;
