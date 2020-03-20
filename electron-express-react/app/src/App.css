@@ -1,7 +1,0 @@
-.container {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
