@@ -1,20 +1,22 @@
-const express = require("express");
-const app = express();
+const FCM = require('fcm-node');
 
-const { exec, execSync } = require("child_process");
+const fcm = new FCM(
+  'AAAAi8_PDiM:APA91bELSUu_SDI1mOGC67Zojr7NSdLN7leSe67JKm5LJ2PQfIzz78iwP-PwccyPRaF4oNaNfEt-o_pTdxfnF7zGtDCplk-Md7TodWabc6MkJ2ih08IfLFFOBJIEFtvX12Ztt6GaRozq'
+);
 
-// execSync("sudo ls", { input: "1\n" });
+const message = {
+  to:
+    'dpV6taOkdR4:APA91bFpT8wKW1uEirSRRlYO_Hf5OYz95CPOk4yzZ24QEqv8UiQCZzzkSnuDoc0VqLrfRjv9NpGmVh4p5BMPwrYjmUNurTJ3qiMDtELgL4CfgxFrjpNyzg4UaRu9GKzD92bNmxdX6DER',
+  notification: {
+    title: 'Transit',
+    body: 'New job arrived',
+  },
+};
 
-exec("sudo ipsec down vpntest", { input: "1\n" }, (error, stdout, stderr) => {
-  if (error) {
-    console.log(`error: ${error.message}`);
-    return;
+fcm.send(message, (err, response) => {
+  if (err) {
+    console.log('Something has gone wrong!');
+  } else {
+    console.log('Successfully sent!');
   }
-  if (stderr) {
-    console.log(`stderr: ${stderr}`);
-    return;
-  }
-  console.log(`stdout: ${stdout}`);
 });
-
-app.listen(5000, () => console.log(`Server running at http://localhost:5000`));

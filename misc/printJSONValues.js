@@ -1,16 +1,3 @@
-// let arr = [
-//   { _id: 1, cost: [0, 1, 2, 3, 4] },
-//   { _id: 2, cost: [4, 5, 6, 7, 8] }
-// ];
-
-// arr
-//   .map(obj => {
-//     return Object.assign({}, obj, {
-//       cost: obj.cost.filter(arrayItem => arrayItem >= 3)
-//     });
-//   })
-//   .forEach(e => console.log(e));
-
 const json1 = {
   glossary: {
     title: "example glossary",
@@ -115,7 +102,5 @@ function iterateObject(obj) {
     else console.log(obj[key]);
   }
 }
-
-// console.log(x.x1[2].x2[1][0].x3[1].x4)
 
 iterateObject(json4);
