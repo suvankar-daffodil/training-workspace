@@ -1,0 +1,156 @@
+* {
+  padding: 0;
+  margin: 0;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+body,
+.control-panel,
+.dice-row,
+.player-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  height: 100vh;
+  background-image: url('assets/wood.jpg');
+  background-size: cover;
+}
+
+.parent {
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 4;
+  margin: 0 50px;
+  padding: 1%;
+  border-radius: 20px;
+  height: 90%;
+}
+
+.grid {
+  flex: 3;
+  height: 100%;
+  display: grid;
+  grid-template: repeat(6, 1fr) / repeat(6, 1fr);
+  grid-gap: 2px;
+}
+
+.grid-item {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  border: black solid;
+  font-style: italic;
+  color: black;
+  text-align: center;
+  font-size: large;
+  border-radius: 10px;
+  background-color: rgba(256, 256, 256, 0.4);
+}
+
+.grid-item img {
+  margin-top: 5%;
+  align-self: center;
+  visibility: hidden;
+  height: 50px;
+  width: 60px;
+}
+
+.control-panel {
+  flex: 1;
+}
+
+.start-button {
+  text-align: center;
+  background-color: rgba(165, 42, 42, 0.8);
+  padding: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+}
+
+.dice-row {
+  flex-direction: column;
+  height: 50%;
+}
+
+.dice-row img {
+  cursor: pointer;
+}
+
+.dice-row img,
+.player-row img {
+  display: block;
+  margin: 25px 10px;
+  border-radius: 20px;
+  height: 100px;
+  width: 100px;
+}
+
+.snake1 {
+  position: absolute;
+  max-height: auto;
+  max-width: auto;
+  height: 30vh;
+  width: 8vw;
+  top: 10vh;
+  left: 5vw;
+}
+
+.snake2 {
+  position: absolute;
+  max-height: auto;
+  max-width: auto;
+  height: 30vh;
+  width: 8vw;
+  top: 24vh;
+  left: 35vw;
+}
+
+.snake3 {
+  position: absolute;
+  max-height: auto;
+  max-width: auto;
+  height: 12vh;
+  width: 5vw;
+  top: 68vh;
+  left: 20vw;
+}
+
+.ladder1 {
+  position: absolute;
+  max-height: auto;
+  max-width: auto;
+  height: 32vh;
+  width: 5vw;
+  top: 51vh;
+  left: 13vw;
+}
+
+.ladder2 {
+  position: absolute;
+  max-height: auto;
+  max-width: auto;
+  height: 8vh;
+  width: 3vw;
+  top: 12vh;
+  left: 21vw;
+}
+
+.active-player {
+  background-color: lightcoral;
+}
+
+.box-shadow {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+.hover-effect:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+}
