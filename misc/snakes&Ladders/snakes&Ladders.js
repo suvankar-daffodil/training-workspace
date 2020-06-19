@@ -126,7 +126,7 @@ const playerScoreUpdate = () => {
 const rollDice = () => {
   const dice = document.querySelector('.dice');
   const random = Math.floor(Math.random() * 6 + 1);
-  dice.src = `/assets/dice-${random}.png`;
+  dice.src = `assets/dice-${random}.png`;
   return random;
 };
 
@@ -182,11 +182,11 @@ const updatePlayerLocation = () => {
   //  remove image from current cell
   if (activePlayer.id == player1.id) {
     if (player1.location == player2.location)
-      player2.location.src = '/assets/player2.png';
+      player2.location.src = 'assets/player2.png';
     else player1.location.style.visibility = 'hidden';
   } else {
     if (player2.location == player1.location)
-      player1.location.src = '/assets/player1.png';
+      player1.location.src = 'assets/player1.png';
     else player2.location.style.visibility = 'hidden';
   }
 
@@ -199,8 +199,8 @@ const updatePlayerLocation = () => {
   else player2.location = cell;
 
   //  put picture in updated cell
-  if (player1.location == player2.location) cell.src = '/assets/playerboth.png';
-  else cell.src = `/assets/${activePlayer.id.id}.png`;
+  if (player1.location == player2.location) cell.src = 'assets/playerboth.png';
+  else cell.src = `assets/${activePlayer.id.id}.png`;
 
   cell.style.visibility = 'visible';
 };
